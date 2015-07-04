@@ -3,12 +3,10 @@ package br.com.javapress.domain.entity.post;
 import java.util.Calendar;
 import java.util.Set;
 
-import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
+import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -16,8 +14,8 @@ import javax.persistence.TemporalType;
 import br.com.javapress.domain.entity.AbstractEntity;
 import br.com.javapress.domain.entity.user.Admin;
 
-@Entity
 @Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
+@MappedSuperclass
 public abstract class Post extends AbstractEntity {
 
 	private String title;

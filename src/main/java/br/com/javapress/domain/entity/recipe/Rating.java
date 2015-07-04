@@ -1,14 +1,22 @@
 package br.com.javapress.domain.entity.recipe;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 
 import br.com.javapress.domain.entity.AbstractEntity;
 import br.com.javapress.domain.entity.user.Client;
 
 @Entity
+@SequenceGenerator(name = "rating_gen", sequenceName = "RATING_SEQUENCE")
 public class Rating extends AbstractEntity{
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "rating_gen")
+	private Long id;
 	@ManyToOne
 	private Client client;
 	@ManyToOne
@@ -33,7 +41,10 @@ public class Rating extends AbstractEntity{
 	public void setRating(int rating) {
 		this.rating = rating;
 	}
-	
-	
-
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
 }

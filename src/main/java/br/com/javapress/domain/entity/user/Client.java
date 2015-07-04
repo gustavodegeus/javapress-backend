@@ -20,4 +20,5 @@ public class Client extends User {
 	public void setFavoriteRecipes(List<Recipe> favoriteRecipes) {
 		this.favoriteRecipes = favoriteRecipes;
 	}
+
 }
