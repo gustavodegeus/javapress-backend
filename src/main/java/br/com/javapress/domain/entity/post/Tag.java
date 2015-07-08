@@ -9,7 +9,7 @@ import javax.persistence.SequenceGenerator;
 import br.com.javapress.domain.entity.AbstractEntity;
 
 @Entity
-@SequenceGenerator(name = "tag_gen", sequenceName = "TAG_SEQUENCE")
+@SequenceGenerator(name = "tag_gen", sequenceName = "TAG_SEQUENCE", allocationSize=1)
 public class Tag extends AbstractEntity{
 
 	@Id

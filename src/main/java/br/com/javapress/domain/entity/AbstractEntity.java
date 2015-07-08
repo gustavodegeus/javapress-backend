@@ -4,6 +4,8 @@ import java.util.Calendar;
 
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -26,5 +28,14 @@ public abstract class AbstractEntity{
 	}
 	public void setUpdated(Calendar updated) {
 		this.updated = updated;
+	}
+	@PrePersist
+	protected void onCreate() {
+	    created = Calendar.getInstance();
+	}
+
+	@PreUpdate
+	protected void onUpdate() {
+	    updated = Calendar.getInstance();
 	}
 }

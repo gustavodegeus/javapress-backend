@@ -11,7 +11,7 @@ import br.com.javapress.domain.entity.AbstractEntity;
 import br.com.javapress.domain.entity.user.User;
 
 @Entity
-@SequenceGenerator(name = "comment_gen", sequenceName = "COMMENT_SEQUENCE")
+@SequenceGenerator(name = "comment_gen", sequenceName = "COMMENT_SEQUENCE", allocationSize=1)
 public class Comment extends AbstractEntity {
 
 	@Id

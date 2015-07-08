@@ -1,35 +1,18 @@
 package br.com.javapress.domain.entity.recipe;
 
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 
-import br.com.javapress.domain.entity.AbstractEntity;
+import br.com.javapress.domain.entity.post.Category;
 
 @Entity
-@SequenceGenerator(name = "recipe_category_gen", sequenceName = "RECIPE_CATEGORY_SEQUENCE")
-public class RecipeCategory extends AbstractEntity{
+@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
+@DiscriminatorValue("recipeCategory")
+public class RecipeCategory extends Category{
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "recipe_category_gen")
-	private Long id;
-	private String name;
-	@ManyToOne
-	private RecipeCategory parent;
-	
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public RecipeCategory getParent() {
-		return parent;
-	}
-	public void setParent(RecipeCategory parent) {
-		this.parent = parent;
+	public RecipeCategory(){
+		this.setType("recipeCategory");
 	}
 }

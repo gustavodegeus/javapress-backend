@@ -12,7 +12,7 @@ import br.com.javapress.domain.entity.AbstractEntity;
 
 @Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
 @Entity
-@SequenceGenerator(name = "user_gen", sequenceName = "USER_SEQUENCE")
+@SequenceGenerator(name = "user_gen", sequenceName = "USER_SEQUENCE", allocationSize=1)
 public abstract class User extends AbstractEntity {
 
 	@Id

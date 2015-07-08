@@ -11,6 +11,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+
 import br.com.javapress.domain.entity.AbstractEntity;
 import br.com.javapress.domain.entity.user.Admin;
 
@@ -23,8 +26,7 @@ public abstract class Post extends AbstractEntity {
 	private Boolean published;
 	@Temporal(TemporalType.DATE)
 	private Calendar publishedDate;
-	@ManyToOne
-	private Category category;
+	@Cascade(CascadeType.PERSIST)
 	@OneToMany
 	private Set<Tag> tags;
 	@ManyToOne
@@ -53,12 +55,6 @@ public abstract class Post extends AbstractEntity {
 	}
 	public void setPublishedDate(Calendar publishedDate) {
 		this.publishedDate = publishedDate;
-	}
-	public Category getCategory() {
-		return category;
-	}
-	public void setCategory(Category category) {
-		this.category = category;
 	}
 	public Set<Tag> getTags() {
 		return tags;

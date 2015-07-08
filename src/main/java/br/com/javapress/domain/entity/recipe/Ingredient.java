@@ -9,7 +9,7 @@ import javax.persistence.SequenceGenerator;
 import br.com.javapress.domain.entity.AbstractEntity;
 
 @Entity
-@SequenceGenerator(name = "ingredient_gen", sequenceName = "INGREDIENT_SEQUENCE")
+@SequenceGenerator(name = "ingredient_gen", sequenceName = "INGREDIENT_SEQUENCE", allocationSize=1)
 public class Ingredient extends AbstractEntity  {
 
 	@Id

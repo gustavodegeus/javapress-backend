@@ -14,7 +14,7 @@ import javax.persistence.SequenceGenerator;
 import br.com.javapress.domain.entity.post.Post;
 
 @Entity
-@SequenceGenerator(name = "recipe_gen", sequenceName = "RECIPE_SEQUENCE")
+@SequenceGenerator(name = "recipe_gen", sequenceName = "RECIPE_SEQUENCE", allocationSize=1)
 public class Recipe extends Post{
 
 	@Id

@@ -9,7 +9,7 @@ import javax.persistence.SequenceGenerator;
 import br.com.javapress.domain.entity.AbstractEntity;
 
 @Entity
-@SequenceGenerator(name = "step_gen", sequenceName = "STEP_SEQUENCE")
+@SequenceGenerator(name = "step_gen", sequenceName = "STEP_SEQUENCE", allocationSize=1)
 public class Step extends AbstractEntity {
 	
 	@Id

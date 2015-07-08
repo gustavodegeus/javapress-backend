@@ -11,7 +11,7 @@ import br.com.javapress.domain.entity.AbstractEntity;
 import br.com.javapress.domain.entity.user.Client;
 
 @Entity
-@SequenceGenerator(name = "rating_gen", sequenceName = "RATING_SEQUENCE")
+@SequenceGenerator(name = "rating_gen", sequenceName = "RATING_SEQUENCE", allocationSize=1)
 public class Rating extends AbstractEntity{
 	
 	@Id
