@@ -8,7 +8,7 @@ import javax.persistence.InheritanceType;
 @Entity
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 @DiscriminatorValue("postCategory")
-public class PostCategory extends Category{
+public class PostCategory extends Category<PostCategory>{
 	
 	public PostCategory(){
 		this.setType("postCategory");

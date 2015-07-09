@@ -10,7 +10,7 @@ import br.com.javapress.domain.entity.post.Category;
 @Entity
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 @DiscriminatorValue("recipeCategory")
-public class RecipeCategory extends Category{
+public class RecipeCategory extends Category<RecipeCategory>{
 
 	public RecipeCategory(){
 		this.setType("recipeCategory");

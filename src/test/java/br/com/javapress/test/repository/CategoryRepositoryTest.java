@@ -20,7 +20,7 @@ public class CategoryRepositoryTest extends TestConfiguration{
 	@Test
 	public void testSavePostCategory(){
 		//Given
-		Category category = new PostCategory();
+		Category<PostCategory> category = new PostCategory();
 		category.setName("Post category");
 		
 		//When
@@ -37,11 +37,11 @@ public class CategoryRepositoryTest extends TestConfiguration{
 		this.categoryRepository.save(category);
 		
 		//Then
-		Category dbCategory = this.categoryRepository.findOne(category.getId());
+		Category<?> dbCategory = this.categoryRepository.findOne(category.getId());
 		Assert.assertEquals(dbCategory.getName(), category.getName());
 		
 		//Given
-		Category otherCategory = new RecipeCategory();
+		Category<PostCategory> otherCategory = new PostCategory();
 		otherCategory.setName("Child category");
 		otherCategory.setParent(dbCategory);
 		

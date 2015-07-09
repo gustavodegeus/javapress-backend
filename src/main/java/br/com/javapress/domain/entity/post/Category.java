@@ -1,5 +1,7 @@
 package br.com.javapress.domain.entity.post;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
@@ -16,14 +18,14 @@ import javax.persistence.SequenceGenerator;
 @DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING)
 @SequenceGenerator(name = "category_gen", sequenceName = "CATEGORY_SEQUENCE", allocationSize=1)
 @Entity
-public abstract class Category{
+public abstract class Category<T extends Category<?>>{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "category_gen")
 	private Long id;
 	private String name;
 	@ManyToOne
-	private Category parent;
+	private T parent;
 	@Column(insertable=false,updatable=false)
 	private String type;
 	
@@ -39,10 +41,10 @@ public abstract class Category{
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Category getParent() {
+	public T getParent() {
 		return parent;
 	}
-	public void setParent(Category parent) {
+	public void setParent(T parent) {
 		this.parent = parent;
 	}
 	public String getType() {

@@ -7,7 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 import br.com.javapress.domain.entity.post.Category;
 
 public interface ICategoryRepository extends
-		CrudRepository<Category, Long> {
+		CrudRepository<Category<?>, Long> {
 
-	List<Category> findAll();
+	List<Category<?>> findAll();
 }
