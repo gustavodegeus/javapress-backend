@@ -21,12 +21,22 @@ public class CategoryController {
 	private CategoryService categoryService;
 	
 	@RequestMapping(value = "/categories", method = RequestMethod.GET)
-	public List<Category> findAll() {
+	public List<Category<?>> findAll() {
 		return this.categoryService.findAll();
 	}
 	
 	@RequestMapping(value="/category/{id}", method = RequestMethod.GET)
-	public Category findById(@PathVariable Long id){
+	public Category<?> findById(@PathVariable Long id){
 		return this.categoryService.findById(id);
+	}
+	
+	@RequestMapping(value="/category", method = RequestMethod.POST)
+	public Category<?> create(Category<?> category){
+		return this.categoryService.save(category);
+	}
+	
+	@RequestMapping(value="/category", method = RequestMethod.PUT)
+	public Category<?> update(Category<?> category){
+		return this.categoryService.save(category);
 	}
 }

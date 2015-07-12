@@ -19,11 +19,11 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @Configuration
+@EnableWebMvc
 @EnableTransactionManagement
 @EnableJpaRepositories(basePackages = {"br.com.javapress.domain.repository"})
 @PropertySource("classpath:persistence.properties")	
-@ComponentScan("br.com.javapress.domain")
-@EnableWebMvc
+@ComponentScan(basePackages = {"br.com.javapress.domain"})
 public class AppConfig {
 	
 	private static final String PROPERTY_DATABASE_DRIVER = "db.driver";

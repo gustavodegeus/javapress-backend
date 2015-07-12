@@ -1,7 +1,5 @@
 package br.com.javapress.domain.entity.post;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
@@ -14,17 +12,28 @@ import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
+import org.codehaus.jackson.annotate.JsonSubTypes;
+import org.codehaus.jackson.annotate.JsonTypeInfo;
+import org.codehaus.jackson.annotate.JsonTypeInfo.As;
+
+import br.com.javapress.domain.entity.recipe.RecipeCategory;
+
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING)
 @SequenceGenerator(name = "category_gen", sequenceName = "CATEGORY_SEQUENCE", allocationSize=1)
 @Entity
-public abstract class Category<T extends Category<?>>{
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = As.PROPERTY, property = "classType")
+@JsonSubTypes({
+    @JsonSubTypes.Type(value = PostCategory.class, name = "PostCategory"),
+    @JsonSubTypes.Type(value = RecipeCategory.class, name = "RecipeCategory")
+})
+public abstract class Category<T extends Category<T>>{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "category_gen")
 	private Long id;
 	private String name;
-	@ManyToOne
+	@ManyToOne(targetEntity=Category.class)
 	private T parent;
 	@Column(insertable=false,updatable=false)
 	private String type;

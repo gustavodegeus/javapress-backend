@@ -97,7 +97,7 @@ public class BlogPostRepositoryTest extends TestConfiguration {
 		this.blogPostRepository.save(blogPost);
 		
 		BlogPost blogPost2 = new BlogPost();
-		this.blogPostRepository.save(blogPost);
+		this.blogPostRepository.save(blogPost2);
 		
 		//When
 		List<BlogPost> blogPosts = this.blogPostRepository.findAll();
