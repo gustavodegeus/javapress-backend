@@ -2,14 +2,13 @@ package br.com.javapress.domain.entity;
 
 import java.util.Calendar;
 
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
+import javax.persistence.MappedSuperclass;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
+@MappedSuperclass
 public abstract class AbstractEntity{
 
 	@Temporal(value=TemporalType.DATE)

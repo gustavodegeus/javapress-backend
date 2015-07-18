@@ -7,4 +7,7 @@ import br.com.javapress.domain.entity.post.Tag;
 public interface ITagRepository extends
 		CrudRepository<Tag, Long> {
 
+	public Tag findById(Long id);
+	
+	public Tag findByName();
 }

@@ -12,26 +12,25 @@ import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
-import org.codehaus.jackson.annotate.JsonSubTypes;
-import org.codehaus.jackson.annotate.JsonTypeInfo;
-import org.codehaus.jackson.annotate.JsonTypeInfo.As;
-
 import br.com.javapress.domain.entity.recipe.RecipeCategory;
+
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING)
 @SequenceGenerator(name = "category_gen", sequenceName = "CATEGORY_SEQUENCE", allocationSize=1)
 @Entity
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = As.PROPERTY, property = "classType")
-@JsonSubTypes({
-    @JsonSubTypes.Type(value = PostCategory.class, name = "PostCategory"),
-    @JsonSubTypes.Type(value = RecipeCategory.class, name = "RecipeCategory")
-})
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")  
+@JsonSubTypes({@Type(value = RecipeCategory.class, name = "recipeCategory"),  
+	    	   @Type(value = PostCategory.class, name = "postCategory")})   
 public abstract class Category<T extends Category<T>>{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "category_gen")
 	private Long id;
+	@Column(unique=true)
 	private String name;
 	@ManyToOne(targetEntity=Category.class)
 	private T parent;

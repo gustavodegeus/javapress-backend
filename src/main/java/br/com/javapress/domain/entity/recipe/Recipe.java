@@ -5,21 +5,15 @@ import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.PrimaryKeyJoinColumn;
 
 import br.com.javapress.domain.entity.post.Post;
 
 @Entity
-@SequenceGenerator(name = "recipe_gen", sequenceName = "RECIPE_SEQUENCE", allocationSize=1)
+@PrimaryKeyJoinColumn(name = "recipe_id", referencedColumnName = "post_id")
 public class Recipe extends Post{
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "recipe_gen")
-	private Long id;
 	private String cookTime;
 	private String servings;
 	private int rating;
@@ -65,11 +59,5 @@ public class Recipe extends Post{
 	}
 	public void setDificulty(Dificulty dificulty) {
 		this.dificulty = dificulty;
-	}
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
 	}
 }

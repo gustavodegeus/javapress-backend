@@ -1,5 +1,6 @@
 package br.com.javapress.domain.entity.post;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,7 +15,9 @@ public class Tag extends AbstractEntity{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tag_gen")
+	@Column(name="tag_id")
 	private Long id;
+	@Column(unique=true)
 	private String name;
 
 	public String getName() {
@@ -31,5 +34,10 @@ public class Tag extends AbstractEntity{
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+	
+	@Override
+	public String toString() {
+		return "Tag{id: " + id.toString() + ", name: "+name+"}";
 	}
 }

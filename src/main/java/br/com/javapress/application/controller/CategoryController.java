@@ -39,4 +39,9 @@ public class CategoryController {
 	public Category<?> update(Category<?> category){
 		return this.categoryService.save(category);
 	}
+	
+	@RequestMapping(value="/category/{id}", method = RequestMethod.DELETE)
+	public void delete(Long id){
+		this.categoryService.delete(id);
+	}
 }

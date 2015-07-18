@@ -1,8 +1,9 @@
 package br.com.javapress.test.repository;
 
+import static org.junit.Assert.*;
+
 import java.util.List;
 
-import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -18,7 +19,7 @@ public class CategoryRepositoryTest extends TestConfiguration{
 	private ICategoryRepository categoryRepository;
 	
 	@Test
-	public void testSavePostCategory(){
+	public void shouldCreateAndUpdatePostCategory(){
 		//Given
 		PostCategory category = new PostCategory();
 		category.setName("Post category");
@@ -27,8 +28,8 @@ public class CategoryRepositoryTest extends TestConfiguration{
 		this.categoryRepository.save(category);
 		
 		//Then
-		Assert.assertNotNull(category.getId());
-		Assert.assertEquals("postCategory", category.getType());
+		assertNotNull("Id should not be null", category.getId());
+		assertEquals("Category type", "postCategory", category.getType());
 		
 		//Given
 		category.setName("New post category name");
@@ -38,8 +39,8 @@ public class CategoryRepositoryTest extends TestConfiguration{
 		
 		//Then
 		Category<?> dbCategory = this.categoryRepository.findOne(category.getId());
-		Assert.assertEquals(dbCategory.getName(), category.getName());
-		Assert.assertEquals("postCategory", dbCategory.getType());
+		assertEquals("Category name should be equal", dbCategory.getName(), category.getName());
+		assertEquals("Category type should be equal", "postCategory", dbCategory.getType());
 		
 		//Given
 		PostCategory otherCategory = new PostCategory();
@@ -50,14 +51,14 @@ public class CategoryRepositoryTest extends TestConfiguration{
 		this.categoryRepository.save(otherCategory);
 		
 		//Then
-		Assert.assertNotNull(otherCategory.getId());
-		Assert.assertEquals(category.getId(), otherCategory.getParent().getId());
-		Assert.assertEquals("postCategory", otherCategory.getType());
+		assertNotNull("Id should not be null", otherCategory.getId());
+		assertEquals("Parent category should be persisted", category.getId(), otherCategory.getParent().getId());
+		assertEquals("Category type", "postCategory", otherCategory.getType());
 		
 	}
 	
 	@Test
-	public void testSaveRecipeCategory(){
+	public void shouldCreateAndUpdateRecipeCategory(){
 		//Given
 		RecipeCategory category = new RecipeCategory();
 		category.setName("Recipe category");
@@ -66,8 +67,8 @@ public class CategoryRepositoryTest extends TestConfiguration{
 		this.categoryRepository.save(category);
 		
 		//Then
-		Assert.assertNotNull(category.getId());
-		Assert.assertEquals("recipeCategory", category.getType());
+		assertNotNull("Category id should not be null", category.getId());
+		assertEquals("Category type", "recipeCategory", category.getType());
 		
 		//Given
 		category.setName("New recipe category name");
@@ -77,8 +78,8 @@ public class CategoryRepositoryTest extends TestConfiguration{
 		
 		//Then
 		Category<?> dbCategory = this.categoryRepository.findOne(category.getId());
-		Assert.assertEquals(dbCategory.getName(), category.getName());
-		Assert.assertEquals("recipeCategory", dbCategory.getType());
+		assertEquals("Name should be equal", dbCategory.getName(), category.getName());
+		assertEquals("Category type", "recipeCategory", dbCategory.getType());
 		
 		//Given
 		RecipeCategory otherCategory = new RecipeCategory();
@@ -89,29 +90,29 @@ public class CategoryRepositoryTest extends TestConfiguration{
 		this.categoryRepository.save(otherCategory);
 		
 		//Then
-		Assert.assertNotNull(otherCategory.getId());
-		Assert.assertEquals(category.getId(), otherCategory.getParent().getId());
-		Assert.assertEquals("recipeCategory", otherCategory.getType());
+		assertNotNull("Id should not be null", otherCategory.getId());
+		assertEquals("Parent category should be persisted", category.getId(), otherCategory.getParent().getId());
+		assertEquals("Category type", "recipeCategory", otherCategory.getType());
 	}
 	
 	@Test
-	public void testDelete(){
+	public void shouldDelete(){
 		//Given
 		Category<RecipeCategory> category = new RecipeCategory();
 		category.setName("Category to be deleted");
 		this.categoryRepository.save(category);
-		Assert.assertNotNull(category.getId());
+		assertNotNull(category.getId());
 		
 		//When
 		this.categoryRepository.delete(category);
 		
 		//Then
 		Category<?> dbCategory = this.categoryRepository.findOne(category.getId());
-		Assert.assertNull(dbCategory);
+		assertNull(dbCategory);
 	}
 	
 	@Test
-	public void testFindAll(){
+	public void shouldFindAll(){
 		//Given
 		Category<PostCategory> category = new PostCategory();
 		category.setName("New post category");
@@ -125,7 +126,7 @@ public class CategoryRepositoryTest extends TestConfiguration{
 		List<PostCategory> postCategories = this.categoryRepository.findAllPostCategories();
 		
 		//Then
-		Assert.assertTrue(postCategories.size()>1);
+		assertTrue(postCategories.size()>1);
 		
 		//Given
 		Category<RecipeCategory> recipeCategory = new RecipeCategory();
@@ -139,12 +140,12 @@ public class CategoryRepositoryTest extends TestConfiguration{
 		List<RecipeCategory> recipeCategories = this.categoryRepository.findAllRecipeCategories();
 		
 		//Then
-		Assert.assertTrue(recipeCategories.size()>1);
+		assertTrue(recipeCategories.size()>1);
 		
 		//Given
 		List<Category<?>> allCategories = this.categoryRepository.findAll();
 		
 		//Then
-		Assert.assertEquals((postCategories.size() + recipeCategories.size()), allCategories.size());
+		assertEquals((postCategories.size() + recipeCategories.size()), allCategories.size());
 	}
 }
