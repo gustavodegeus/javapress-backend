@@ -9,5 +9,5 @@ public interface ITagRepository extends
 
 	public Tag findById(Long id);
 	
-	public Tag findByName();
+	public Tag findByName(String name);
 }

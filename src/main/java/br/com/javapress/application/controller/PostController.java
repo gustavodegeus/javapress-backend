@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.javapress.domain.entity.post.BlogPost;
-import br.com.javapress.domain.entity.post.Category;
 import br.com.javapress.domain.entity.post.Post;
 import br.com.javapress.domain.service.PostService;
 

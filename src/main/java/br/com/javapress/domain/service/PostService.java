@@ -49,7 +49,7 @@ public class PostService {
 	private void prepareTags(Post post){
 		Set<Tag> tags = new HashSet<Tag>();
 		for (Tag tag : post.getTags()) {
-			Tag dbTag = this.tagRepository.findByName(); 
+			Tag dbTag = this.tagRepository.findByName(tag.getName()); 
 			
 			if( dbTag != null){
 				tags.add(dbTag);

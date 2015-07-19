@@ -22,7 +22,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 @DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING)
 @SequenceGenerator(name = "category_gen", sequenceName = "CATEGORY_SEQUENCE", allocationSize=1)
 @Entity
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")  
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type", visible=true)  
 @JsonSubTypes({@Type(value = RecipeCategory.class, name = "recipeCategory"),  
 	    	   @Type(value = PostCategory.class, name = "postCategory")})   
 public abstract class Category<T extends Category<T>>{
