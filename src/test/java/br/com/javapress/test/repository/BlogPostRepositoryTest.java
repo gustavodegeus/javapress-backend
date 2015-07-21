@@ -74,7 +74,7 @@ public class BlogPostRepositoryTest extends TestConfiguration {
 		assertEquals("Category should be equal", blogPost.getCategory().getName(), dbBlogPost.getCategory().getName());
 	}
 	
-	@Test
+	//@Test
 	public void shouldSaveDbTagAndNewTag(){
 		Tag dbTag = this.tagRepository.findById(1L);
 		
