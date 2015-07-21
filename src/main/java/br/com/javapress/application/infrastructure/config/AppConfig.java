@@ -1,5 +1,7 @@
 package br.com.javapress.application.infrastructure.config;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Properties;
 
 import javax.annotation.Resource;
@@ -27,9 +29,6 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 public class AppConfig {
 	
 	private static final String PROPERTY_DATABASE_DRIVER = "db.driver";
-    private static final String PROPERTY_DATABASE_PASSWORD = "db.password";
-    private static final String PROPERTY_DATABASE_URL = "db.url";
-    private static final String PROPERTY_DATABASE_USERNAME = "db.username";
          
     private static final String PROPERTY_HIBERNATE_DIALECT = "hibernate.dialect";
     private static final String PROPERTY_HIBERNATE_SHOW_SQL = "hibernate.show_sql"; 
@@ -37,24 +36,28 @@ public class AppConfig {
     private static final String PROPERTY_CREATE_SCHEMA_DDL = "hibernate.hbm2ddl.auto";
 	private static final String PROPERTY_HIBERNATE_PACKAGES_TO_SCAN = "hibernate.packagesToScan"; 
 	private static final String PROPERTY_HIBERNATE_DEFAULT_SCHEMA = "hibernate.defaultSchema"; 
-
+	
 	@Resource
     private Environment env;
 	
 	@Bean
-    public DataSource dataSource() {
+    public DataSource dataSource() throws URISyntaxException {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
          
+        URI dbUri = new URI(System.getenv("DATABASE_URL"));
+        String username = dbUri.getUserInfo().split(":")[0];
+        String password = dbUri.getUserInfo().split(":")[1];
+        String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath();
+        
         dataSource.setDriverClassName(env.getRequiredProperty(PROPERTY_DATABASE_DRIVER));
-        dataSource.setUrl(env.getRequiredProperty(PROPERTY_DATABASE_URL));
-        dataSource.setUsername(env.getRequiredProperty(PROPERTY_DATABASE_USERNAME));
-        dataSource.setPassword(env.getRequiredProperty(PROPERTY_DATABASE_PASSWORD));
-         
+        dataSource.setUrl(dbUrl);
+        dataSource.setUsername(username);
+        dataSource.setPassword(password);         
         return dataSource;
     }
      
     @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory() throws URISyntaxException {
         LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
         entityManagerFactoryBean.setDataSource(dataSource());
         entityManagerFactoryBean.setPersistenceProviderClass(HibernatePersistenceProvider.class);
@@ -77,7 +80,7 @@ public class AppConfig {
     }
      
     @Bean
-    public JpaTransactionManager transactionManager() {
+    public JpaTransactionManager transactionManager() throws URISyntaxException {
         JpaTransactionManager transactionManager = new JpaTransactionManager();
         transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
         return transactionManager;
