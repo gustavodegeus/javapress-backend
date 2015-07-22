@@ -42,13 +42,13 @@ public class AppConfig {
 	
 	@Bean
     public DataSource dataSource() throws URISyntaxException {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
          
         URI dbUri = new URI(System.getenv("DATABASE_URL"));
         String username = dbUri.getUserInfo().split(":")[0];
         String password = dbUri.getUserInfo().split(":").length == 1 ? "" : dbUri.getUserInfo().split(":")[1];
         String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath();
         
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName(env.getRequiredProperty(PROPERTY_DATABASE_DRIVER));
         dataSource.setUrl(dbUrl);
         dataSource.setUsername(username);
