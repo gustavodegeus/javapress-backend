@@ -6,7 +6,6 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
-import java.util.UUID;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,11 +89,10 @@ public class BlogPostRepositoryTest extends TestConfiguration {
 		
 		assertEquals("Number of post tags", 2, post.getTags().size());
 	}
-	
+
 	@Test
 	public void shouldDelete(){
 		//Given
-		
 		BlogPost blogPost = this.postRepository.save(getObject());
 		assertNotNull(blogPost.getId());
 		
@@ -118,10 +116,6 @@ public class BlogPostRepositoryTest extends TestConfiguration {
 		//When
 		List<BlogPost> blogPosts = this.postRepository.findAllBlogPosts();
 		assertTrue("Size should be bigger than one", blogPosts.size()>1);
-	}
-	
-	private String getRandomString(){
-		return UUID.randomUUID().toString();
 	}
 	
 	private BlogPost getObject(){

@@ -1,7 +1,5 @@
 package br.com.javapress.domain.entity.post;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
@@ -29,11 +27,6 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 	    	   @Type(value = PostCategory.class, name = "postCategory")})   
 public abstract class Category<T extends Category<T>>{
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -7152662327349301219L;
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "category_gen")
 	private Long id;

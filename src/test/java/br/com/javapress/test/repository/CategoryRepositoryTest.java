@@ -22,7 +22,7 @@ public class CategoryRepositoryTest extends TestConfiguration{
 	public void shouldCreateAndUpdatePostCategory(){
 		//Given
 		PostCategory category = new PostCategory();
-		category.setName("Post category");
+		category.setName(getRandomString());
 		
 		//When
 		this.categoryRepository.save(category);
@@ -32,7 +32,7 @@ public class CategoryRepositoryTest extends TestConfiguration{
 		assertEquals("Category type", "postCategory", category.getType());
 		
 		//Given
-		category.setName("New post category name");
+		category.setName(getRandomString());
 		
 		//When
 		this.categoryRepository.save(category);
@@ -45,7 +45,7 @@ public class CategoryRepositoryTest extends TestConfiguration{
 		//Given
 		PostCategory otherCategory = new PostCategory();
 		otherCategory.setParent(category);
-		otherCategory.setName("Other category");
+		otherCategory.setName(getRandomString());
 		
 		//When
 		this.categoryRepository.save(otherCategory);
@@ -61,7 +61,7 @@ public class CategoryRepositoryTest extends TestConfiguration{
 	public void shouldCreateAndUpdateRecipeCategory(){
 		//Given
 		RecipeCategory category = new RecipeCategory();
-		category.setName("Recipe category");
+		category.setName(getRandomString());
 		
 		//When
 		this.categoryRepository.save(category);
@@ -71,7 +71,7 @@ public class CategoryRepositoryTest extends TestConfiguration{
 		assertEquals("Category type", "recipeCategory", category.getType());
 		
 		//Given
-		category.setName("New recipe category name");
+		category.setName(getRandomString());
 		
 		//When
 		this.categoryRepository.save(category);
@@ -84,7 +84,7 @@ public class CategoryRepositoryTest extends TestConfiguration{
 		//Given
 		RecipeCategory otherCategory = new RecipeCategory();
 		otherCategory.setParent(category);
-		otherCategory.setName("Other recipe category");
+		otherCategory.setName(getRandomString());
 		
 		//When
 		this.categoryRepository.save(otherCategory);
@@ -115,11 +115,11 @@ public class CategoryRepositoryTest extends TestConfiguration{
 	public void shouldFindAll(){
 		//Given
 		Category<PostCategory> category = new PostCategory();
-		category.setName("New post category");
+		category.setName(getRandomString());
 		this.categoryRepository.save(category);
 		
 		Category<PostCategory> category2 = new PostCategory();
-		category.setName("New recipe category");
+		category.setName(getRandomString());
 		this.categoryRepository.save(category2);
 		
 		//When
@@ -130,10 +130,10 @@ public class CategoryRepositoryTest extends TestConfiguration{
 		
 		//Given
 		Category<RecipeCategory> recipeCategory = new RecipeCategory();
-		category.setName("New post category");
+		category.setName(getRandomString());
 		this.categoryRepository.save(recipeCategory);		
 		Category<RecipeCategory> recipeCategory2 = new RecipeCategory();
-		category.setName("New recipe category");
+		category.setName(getRandomString());
 		this.categoryRepository.save(recipeCategory2);
 		
 		//When
