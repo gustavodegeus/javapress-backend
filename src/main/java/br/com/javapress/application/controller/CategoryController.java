@@ -37,12 +37,12 @@ public class CategoryController {
 	}
 	
 	@RequestMapping(value="/category", method = RequestMethod.PUT)
-	public Category<?> update(Category<?> category){
+	public Category<?> update(@RequestBody Category<?> category){
 		return this.categoryService.save(category);
 	}
 	
 	@RequestMapping(value="/category/{id}", method = RequestMethod.DELETE)
-	public void delete(Long id){
+	public void delete(@PathVariable Long id){
 		this.categoryService.delete(id);
 	}
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,17 +33,17 @@ public class PostController {
 	}
 	
 	@RequestMapping(value="/post", method = RequestMethod.POST)
-	public Post create(Post post){
+	public Post create(@RequestBody Post post){
 		return this.postService.save(post);
 	}
 	
 	@RequestMapping(value="/post", method = RequestMethod.PUT)
-	public Post update(Post post){
+	public Post update(@RequestBody Post post){
 		return this.postService.save(post);
 	}
 	
 	@RequestMapping(value="/post/{id}", method = RequestMethod.DELETE)
-	public void delete(Long id){
+	public void delete(@PathVariable Long id){
 		this.postService.delete(id);
 	}
 }
