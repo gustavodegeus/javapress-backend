@@ -21,7 +21,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @Configuration
-@EnableWebMvc
 @EnableTransactionManagement
 @EnableJpaRepositories(basePackages = {"br.com.javapress.domain.repository"})
 @PropertySource("classpath:persistence.properties")	
