@@ -11,14 +11,14 @@ import br.com.javapress.domain.entity.post.Category;
 import br.com.javapress.domain.entity.post.PostCategory;
 import br.com.javapress.domain.entity.recipe.RecipeCategory;
 import br.com.javapress.domain.repository.post.ICategoryRepository;
-import br.com.javapress.test.TestConfiguration;
+import br.com.javapress.test.config.TestConfiguration;
 
 public class CategoryRepositoryTest extends TestConfiguration{
 
 	@Autowired
 	private ICategoryRepository categoryRepository;
 	
-//	@Test
+	@Test
 	public void shouldCreateAndUpdatePostCategory(){
 		//Given
 		PostCategory category = new PostCategory();

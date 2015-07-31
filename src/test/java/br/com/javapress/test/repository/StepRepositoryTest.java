@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import br.com.javapress.domain.entity.recipe.Step;
 import br.com.javapress.domain.repository.recipe.IStepRepository;
-import br.com.javapress.test.TestConfiguration;
+import br.com.javapress.test.config.TestConfiguration;
 
 public class StepRepositoryTest extends TestConfiguration{
 

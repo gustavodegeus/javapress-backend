@@ -18,7 +18,7 @@ import br.com.javapress.domain.repository.post.ICategoryRepository;
 import br.com.javapress.domain.repository.post.IPostRepository;
 import br.com.javapress.domain.repository.post.ITagRepository;
 import br.com.javapress.domain.repository.user.IAdminRepository;
-import br.com.javapress.test.TestConfiguration;
+import br.com.javapress.test.config.TestConfiguration;
 
 public class BlogPostRepositoryTest extends TestConfiguration {
 
