@@ -41,10 +41,14 @@ public class CategoryControllerTest extends ControllerTestConfiguration {
     
     @Test
     public void shouldCreate() throws Exception {
+    	PostCategory parent = new PostCategory();
+    	parent.setName(getRandomString());
+    	this.categoryRepository.save(parent);
     	PostCategory category = new PostCategory();
-    	category.setName(getRandomString());
+    	category.setName(getRandomString()); 
+    	category.setParent(parent);
     	
-        this.mockMvc.perform(post("/category").contentType(MediaType.APPLICATION_JSON_VALUE)
+        this.mockMvc.perform(post("/postCategory").contentType(MediaType.APPLICATION_JSON_VALUE)
         	.content(asJsonString(category)).accept(MediaType.parseMediaType("application/json;charset=UTF-8")))
             .andExpect(jsonPath("$.name").value(category.getName()));
     }

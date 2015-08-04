@@ -13,10 +13,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
 import br.com.javapress.domain.entity.recipe.RecipeCategory;
+import br.com.javapress.domain.jackson.CategoryDeserializer;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING)
@@ -24,7 +26,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 @Entity
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type", visible=true)  
 @JsonSubTypes({@Type(value = RecipeCategory.class, name = "recipeCategory"),  
-	    	   @Type(value = PostCategory.class, name = "postCategory")})   
+	    	   @Type(value = PostCategory.class, name = "postCategory")})
 public abstract class Category<T extends Category<T>>{
 
 	@Id
@@ -32,6 +34,7 @@ public abstract class Category<T extends Category<T>>{
 	private Long id;
 	@Column(unique=true)
 	private String name;
+	@JsonDeserialize(using = CategoryDeserializer.class)
 	@ManyToOne(targetEntity=Category.class)
 	private T parent;
 	@Column(insertable=false,updatable=false)

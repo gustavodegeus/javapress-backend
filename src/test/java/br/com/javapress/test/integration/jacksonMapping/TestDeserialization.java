@@ -26,6 +26,13 @@ public class TestDeserialization extends TestConfiguration{
 	@Test
 	public void shoudDeserializeCategoryWithParent() throws JsonProcessingException, IOException{
 		ObjectMapper mapper = new ObjectMapper();
+		Category<?> test = mapper.readValue(""
+	    		+ "{ \"type\":\"postCategory\", "
+	    		+ "\"name\":\"Test post category\", "
+	    		+ "\"parent\":{ \"id\": 32, \"type\":\"postCategory\"}}", Category.class);
+		
+		assertTrue(test instanceof PostCategory);
+		
 	    Category<?> category = mapper.reader(Category.class).readValue(""
 	    		+ "{ \"type\":\"postCategory\", "
 	    		+ "\"name\":\"Test post category\", "
