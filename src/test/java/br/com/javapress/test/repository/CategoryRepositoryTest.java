@@ -1,35 +1,54 @@
 package br.com.javapress.test.repository;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
+import java.util.Set;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
+
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import br.com.javapress.domain.entity.post.Category;
-import br.com.javapress.domain.entity.post.PostCategory;
-import br.com.javapress.domain.entity.recipe.RecipeCategory;
+import br.com.javapress.domain.entity.post.CategoryType;
 import br.com.javapress.domain.repository.post.ICategoryRepository;
 import br.com.javapress.test.config.TestConfiguration;
 
 public class CategoryRepositoryTest extends TestConfiguration{
 
+	
+	private static Validator validator;
+	
+	@BeforeClass
+	public static void setUp(){
+		 ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+		 validator = factory.getValidator();
+	}
+	
 	@Autowired
 	private ICategoryRepository categoryRepository;
-	
+
 	@Test
-	public void shouldCreateAndUpdatePostCategory(){
+	public void shouldCreateAndUpdateCategory(){
 		//Given
-		PostCategory category = new PostCategory();
+		Category category = new Category();
 		category.setName(getRandomString());
+		category.setType(CategoryType.POST);
 		
 		//When
 		this.categoryRepository.save(category);
 		
 		//Then
 		assertNotNull("Id should not be null", category.getId());
-		assertEquals("Category type", "postCategory", category.getType());
+		assertEquals("Category type", CategoryType.POST, category.getType());
 		
 		//Given
 		category.setName(getRandomString());
@@ -38,68 +57,33 @@ public class CategoryRepositoryTest extends TestConfiguration{
 		this.categoryRepository.save(category);
 		
 		//Then
-		Category<?> dbCategory = this.categoryRepository.findOne(category.getId());
+		Category dbCategory = this.categoryRepository.findOne(category.getId());
 		assertEquals("Category name should be equal", dbCategory.getName(), category.getName());
-		assertEquals("Category type should be equal", "postCategory", dbCategory.getType());
+		assertEquals("Category type should be equal", CategoryType.POST, dbCategory.getType());
 		
 		//Given
-		PostCategory otherCategory = new PostCategory();
+		Category otherCategory = new Category();
 		otherCategory.setParent(category);
 		otherCategory.setName(getRandomString());
-		
+		otherCategory.setType(CategoryType.RECIPE);
+		Set<ConstraintViolation<Category>> constraintViolations = validator.validate( otherCategory );
+		assertTrue(constraintViolations.size() > 0);
 		//When
 		this.categoryRepository.save(otherCategory);
 		
 		//Then
 		assertNotNull("Id should not be null", otherCategory.getId());
 		assertEquals("Parent category should be persisted", category.getId(), otherCategory.getParent().getId());
-		assertEquals("Category type", "postCategory", otherCategory.getType());
+		assertEquals("Category type", CategoryType.RECIPE, otherCategory.getType());
 		
-	}
-	
-//	@Test
-	public void shouldCreateAndUpdateRecipeCategory(){
-		//Given
-		RecipeCategory category = new RecipeCategory();
-		category.setName(getRandomString());
-		
-		//When
-		this.categoryRepository.save(category);
-		
-		//Then
-		assertNotNull("Category id should not be null", category.getId());
-		assertEquals("Category type", "recipeCategory", category.getType());
-		
-		//Given
-		category.setName(getRandomString());
-		
-		//When
-		this.categoryRepository.save(category);
-		
-		//Then
-		Category<?> dbCategory = this.categoryRepository.findOne(category.getId());
-		assertEquals("Name should be equal", dbCategory.getName(), category.getName());
-		assertEquals("Category type", "recipeCategory", dbCategory.getType());
-		
-		//Given
-		RecipeCategory otherCategory = new RecipeCategory();
-		otherCategory.setParent(category);
-		otherCategory.setName(getRandomString());
-		
-		//When
-		this.categoryRepository.save(otherCategory);
-		
-		//Then
-		assertNotNull("Id should not be null", otherCategory.getId());
-		assertEquals("Parent category should be persisted", category.getId(), otherCategory.getParent().getId());
-		assertEquals("Category type", "recipeCategory", otherCategory.getType());
 	}
 	
 	@Test
 	public void shouldDelete(){
 		//Given
-		Category<RecipeCategory> category = new RecipeCategory();
+		Category category = new Category();
 		category.setName("Category to be deleted");
+		category.setType(CategoryType.POST);
 		this.categoryRepository.save(category);
 		assertNotNull(category.getId());
 		
@@ -107,45 +91,62 @@ public class CategoryRepositoryTest extends TestConfiguration{
 		this.categoryRepository.delete(category);
 		
 		//Then
-		Category<?> dbCategory = this.categoryRepository.findOne(category.getId());
+		Category dbCategory = this.categoryRepository.findOne(category.getId());
 		assertNull(dbCategory);
 	}
 	
-	//@Test
+	@Test
 	public void shouldFindAll(){
 		//Given
-		Category<PostCategory> category = new PostCategory();
+		Category category = new Category();
 		category.setName(getRandomString());
+		category.setType(CategoryType.POST);
 		this.categoryRepository.save(category);
 		
-		Category<PostCategory> category2 = new PostCategory();
-		category.setName(getRandomString());
+		Category category2 = new Category();
+		category2.setName(getRandomString());
+		category2.setType(CategoryType.POST);
+		this.categoryRepository.save(category2);
+		
+		//Given
+		List<Category> allCategories = this.categoryRepository.findAll();
+		
+		//Then
+		assertTrue(allCategories.size() >= 2);
+	}
+	
+	@Test
+	public void shouldFindAllWithFilters(){
+		//Given
+		Category category = new Category();
+		category.setName("xxxx categoria");
+		category.setType(CategoryType.POST);
+		this.categoryRepository.save(category);
+		
+		Category category2 = new Category();
+		category2.setName("yyy categoria");
+		category2.setType(CategoryType.POST);
 		this.categoryRepository.save(category2);
 		
 		//When
-		List<PostCategory> postCategories = this.categoryRepository.findAllPostCategories();
+		List<Category> categories = this.categoryRepository.findByTypeAndNameAndParentName(null, "xxx", null);
 		
 		//Then
-		assertTrue(postCategories.size()>1);
-		
-		//Given
-		Category<RecipeCategory> recipeCategory = new RecipeCategory();
-		category.setName(getRandomString());
-		this.categoryRepository.save(recipeCategory);		
-		Category<RecipeCategory> recipeCategory2 = new RecipeCategory();
-		category.setName(getRandomString());
-		this.categoryRepository.save(recipeCategory2);
+		assertEquals(1, categories.size());
 		
 		//When
-		List<RecipeCategory> recipeCategories = this.categoryRepository.findAllRecipeCategories();
+		categories = this.categoryRepository.findByTypeAndNameAndParentName(CategoryType.POST, null, null);
 		
 		//Then
-		assertTrue(recipeCategories.size()>1);
+		assertTrue(categories.size() >= 2);
 		
-		//Given
-		List<Category<?>> allCategories = this.categoryRepository.findAll();
+		//When
+		category2.setParent(category);
+		this.categoryRepository.save(category2);
+		
+		categories = this.categoryRepository.findByTypeAndNameAndParentName(null,null, "xxx");
 		
 		//Then
-		assertEquals((postCategories.size() + recipeCategories.size()), allCategories.size());
+		assertEquals(1,categories.size());
 	}
 }

@@ -12,14 +12,13 @@ import org.springframework.web.context.WebApplicationContext;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class ControllerTestConfiguration extends TestConfiguration {
+public abstract class ControllerTestConfiguration extends TestConfiguration {
 
 	protected MockMvc mockMvc;
 	
 	@Autowired
     protected WebApplicationContext wac;
 
-	 
 	@Before
     public void setup() {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac)

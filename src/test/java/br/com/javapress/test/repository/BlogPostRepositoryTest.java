@@ -11,7 +11,8 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import br.com.javapress.domain.entity.post.BlogPost;
-import br.com.javapress.domain.entity.post.PostCategory;
+import br.com.javapress.domain.entity.post.Category;
+import br.com.javapress.domain.entity.post.CategoryType;
 import br.com.javapress.domain.entity.post.Tag;
 import br.com.javapress.domain.entity.user.Admin;
 import br.com.javapress.domain.repository.post.ICategoryRepository;
@@ -37,8 +38,9 @@ public class BlogPostRepositoryTest extends TestConfiguration {
 	@Test
 	public void shouldCreateAndUpdateBlogPost(){
 		//Given
-		PostCategory category = new PostCategory();
+		Category category = new Category();
 		category.setName(getRandomString());
+		category.setType(CategoryType.POST);
 		
 		Admin admin = new Admin();
 		admin.setEmail("email@email.com");
@@ -60,8 +62,9 @@ public class BlogPostRepositoryTest extends TestConfiguration {
 		
 		//Given
 		blogPost.setContent("New content");
-		PostCategory otherCategory = new PostCategory();
+		Category otherCategory = new Category();
 		otherCategory.setName(getRandomString());
+		otherCategory.setType(CategoryType.POST);
 		blogPost.setCategory(this.categoryRepository.save(otherCategory));
 		
 		//When

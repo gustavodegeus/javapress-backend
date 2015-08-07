@@ -45,7 +45,15 @@ public class Post extends AbstractEntity {
 	private Set<Tag> tags;
 	@ManyToOne
 	private Admin owner;
+	@ManyToOne
+	private Category category;
 
+	public Category getCategory() {
+		return category;
+	}
+	public void setCategory(Category category) {
+		this.category = category;
+	}
 	public Post(){
 		this.tags = new HashSet<Tag>();
 	}
