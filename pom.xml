@@ -209,11 +209,11 @@
 				            <configuration>
 				                <artifactItems>
 				                    <artifactItem>
-				                        <groupId>org.mortbay.jetty</groupId>
-				                        <artifactId>jetty-runner</artifactId>
-				                        <version>7.4.5.v20110725</version>
-				                        <destFileName>jetty-runner.jar</destFileName>
-				                    </artifactItem>
+		                                <groupId>com.github.jsimone</groupId>
+		                                <artifactId>webapp-runner</artifactId>
+		                                <version>8.0.24.0</version>
+		                                <destFileName>webapp-runner.jar</destFileName>
+		                            </artifactItem>
 				                </artifactItems>
 				            </configuration>
 				        </execution>
