@@ -11,9 +11,11 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
+import br.com.javapress.application.jackson.CategoryDeserializer;
 import br.com.javapress.domain.entity.recipe.RecipeCategory;
-import br.com.javapress.domain.jackson.CategoryDeserializer;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
@@ -27,12 +29,12 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type", visible=true)  
 @JsonSubTypes({@Type(value = RecipeCategory.class, name = "recipeCategory"),  
 	    	   @Type(value = PostCategory.class, name = "postCategory")})
+@Table(uniqueConstraints={@UniqueConstraint(columnNames={"name"}, name="category_name_uk")})
 public abstract class Category<T extends Category<T>>{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "category_gen")
 	private Long id;
-	@Column(unique=true)
 	private String name;
 	@JsonDeserialize(using = CategoryDeserializer.class)
 	@ManyToOne(targetEntity=Category.class)

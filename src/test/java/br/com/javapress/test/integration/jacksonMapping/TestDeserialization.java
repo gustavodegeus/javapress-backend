@@ -36,7 +36,7 @@ public class TestDeserialization extends TestConfiguration{
 	    Category<?> category = mapper.reader(Category.class).readValue(""
 	    		+ "{ \"type\":\"postCategory\", "
 	    		+ "\"name\":\"Test post category\", "
-	    		+ "\"parent\":{ \"id\": 32, \"type\":\"postCategory\"}}");
+	    		+ "\"parent\":{ \"id\": 32, \"type\":\"recipeCategory\"}}");
 
 	    assertTrue(category instanceof PostCategory);
 	}
