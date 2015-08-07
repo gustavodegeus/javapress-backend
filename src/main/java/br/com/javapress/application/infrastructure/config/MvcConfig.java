@@ -3,7 +3,7 @@ package br.com.javapress.application.infrastructure.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -32,11 +32,11 @@ public class MvcConfig extends WebMvcConfigurerAdapter{
         return bean;
     }
  
-    @Bean(name = "messageSource")
-    public ReloadableResourceBundleMessageSource getMessageSource() {
-        ReloadableResourceBundleMessageSource resource = new ReloadableResourceBundleMessageSource();
-        resource.setBasename("classpath:messages");
-        resource.setDefaultEncoding("UTF-8");
-        return resource;
-    }
+    @Bean  
+    public ResourceBundleMessageSource messageSource() {  
+        ResourceBundleMessageSource resource = new ResourceBundleMessageSource();  
+        resource.setBasename("i18n/messages");  
+        resource.setUseCodeAsDefaultMessage(true);  
+        return resource;  
+    }  
 }
