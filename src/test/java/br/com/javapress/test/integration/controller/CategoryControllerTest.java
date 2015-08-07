@@ -9,6 +9,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
@@ -23,8 +24,10 @@ import br.com.javapress.domain.entity.post.CategoryType;
 import br.com.javapress.domain.repository.post.ICategoryRepository;
 import br.com.javapress.test.config.ControllerTestConfiguration;
 
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class CategoryControllerTest extends ControllerTestConfiguration {
@@ -72,10 +75,10 @@ public class CategoryControllerTest extends ControllerTestConfiguration {
         assertTrue(categories.size() >=2);
     }
 
-	private List<Category> deserializeJsonToCategoryList(MvcResult result) throws UnsupportedEncodingException {
+	private List<Category> deserializeJsonToCategoryList(MvcResult result) throws JsonParseException, JsonMappingException, IOException {
 		ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
 		String content = result.getResponse().getContentAsString();
-        return mapper.convertValue(content, new TypeReference<List<Category>>() { });
+        return mapper.readValue(content, List.class);
 	}
     
     @Test
