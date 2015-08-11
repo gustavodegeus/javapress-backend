@@ -1,14 +1,21 @@
 package br.com.javapress.application.infrastructure.config;
 
+import java.util.List;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.hibernate4.Hibernate4Module;
 
 @EnableWebMvc
 @Configuration
@@ -39,4 +46,22 @@ public class MvcConfig extends WebMvcConfigurerAdapter{
         resource.setUseCodeAsDefaultMessage(true);  
         return resource;  
     }  
+    
+    @Bean
+    public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter(){
+    	MappingJackson2HttpMessageConverter messageConverter = new MappingJackson2HttpMessageConverter();
+        ObjectMapper mapper = new ObjectMapper();
+        //Registering Hibernate4Module to support lazy objects
+        mapper.registerModule(new Hibernate4Module());
+        messageConverter.setObjectMapper(mapper);
+        return messageConverter;
+    }
+    
+    @Override
+    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+        //Here we add our custom-configured HttpMessageConverter
+        converters.add(mappingJackson2HttpMessageConverter());
+        super.configureMessageConverters(converters);
+    }
+
 }
