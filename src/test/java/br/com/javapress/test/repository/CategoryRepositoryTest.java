@@ -9,11 +9,8 @@ import java.util.List;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
 import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
 
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -24,14 +21,8 @@ import br.com.javapress.test.config.TestConfiguration;
 
 public class CategoryRepositoryTest extends TestConfiguration{
 
-	
-	private static Validator validator;
-	
-	@BeforeClass
-	public static void setUp(){
-		 ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-		 validator = factory.getValidator();
-	}
+	@Autowired
+	private Validator validator;
 	
 	@Autowired
 	private ICategoryRepository categoryRepository;

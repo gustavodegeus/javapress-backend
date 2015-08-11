@@ -7,10 +7,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.javapress.domain.dto.SearchBlogPostDto;
 import br.com.javapress.domain.entity.post.BlogPost;
 import br.com.javapress.domain.entity.post.Post;
+import br.com.javapress.domain.service.CategoryService;
 import br.com.javapress.domain.service.PostService;
 
 /**
@@ -22,9 +25,15 @@ public class PostController {
 	@Autowired
 	private PostService postService;
 	
+	@Autowired
+	private CategoryService categoryService;
+	
+	
 	@RequestMapping(value = "/blogPosts", method = RequestMethod.GET)
-	public List<BlogPost> findAllBlogPosts() {
-		return this.postService.findAllBlogPosts();
+	public List<BlogPost> findAllBlogPosts(@RequestParam(value="title",required=false) String title, 
+										  @RequestParam(value="categoryId",required=false) Long categoryId) {
+		SearchBlogPostDto searchBlogPostDto = new SearchBlogPostDto(title, categoryId);
+		return this.postService.findAllBlogPosts(searchBlogPostDto);
 	}
 	
 	@RequestMapping(value="/post/{id}", method = RequestMethod.GET)
@@ -33,13 +42,13 @@ public class PostController {
 	}
 	
 	@RequestMapping(value="/post", method = RequestMethod.POST)
-	public Post create(@RequestBody Post post){
-		return this.postService.save(post);
+	public Post create(@RequestBody Post post) throws Exception{
+		return this.postService.create(post);
 	}
 	
 	@RequestMapping(value="/post", method = RequestMethod.PUT)
-	public Post update(@RequestBody Post post){
-		return this.postService.save(post);
+	public Post update(@RequestBody Post post) throws Exception{
+		return this.postService.update(post);
 	}
 	
 	@RequestMapping(value="/post/{id}", method = RequestMethod.DELETE)

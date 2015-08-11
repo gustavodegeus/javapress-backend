@@ -6,6 +6,7 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,24 +23,34 @@ import javax.persistence.TemporalType;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
+import br.com.javapress.application.validation.annotation.AssertIdNotNullForUpdate;
+import br.com.javapress.application.validation.groups.PreUpdate;
 import br.com.javapress.domain.entity.AbstractEntity;
+import br.com.javapress.domain.entity.recipe.Recipe;
 import br.com.javapress.domain.entity.user.Admin;
+
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 @Inheritance(strategy=InheritanceType.JOINED)
 @Entity
 @SequenceGenerator(name = "post_gen", sequenceName = "BLOG_POST_SEQUENCE", allocationSize=1)
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME,include = JsonTypeInfo.As.PROPERTY,property = "type")  
+@JsonSubTypes({@Type(value = BlogPost.class, name = "POST"), @Type(value = Recipe.class, name = "RECIPE")})  
 public class Post extends AbstractEntity {
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "post_gen")
 	@Column(name="post_id")
+	@AssertIdNotNullForUpdate(groups={PreUpdate.class})
 	private Long id;
 	private String title;
+	@Column(columnDefinition="TEXT")
 	private String content;
 	private Boolean published;
 	@Temporal(TemporalType.DATE)
 	private Calendar publishedDate;
-	@ManyToMany
+	@ManyToMany(fetch=FetchType.EAGER)
     @JoinTable(name="post_tags", joinColumns={@JoinColumn(name="post_id")}, inverseJoinColumns={@JoinColumn(name="tag_id")})
 	@Cascade(CascadeType.SAVE_UPDATE)
 	private Set<Tag> tags;

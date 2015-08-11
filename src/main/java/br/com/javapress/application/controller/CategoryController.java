@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.javapress.domain.dto.CategorySearchDto;
+import br.com.javapress.domain.dto.SearchCategoryDto;
 import br.com.javapress.domain.entity.post.Category;
 import br.com.javapress.domain.entity.post.CategoryType;
 import br.com.javapress.domain.service.CategoryService;
@@ -32,7 +32,7 @@ public class CategoryController {
 	public List<Category> findAll(@RequestParam(value="type", required=false) CategoryType type, 
 									 @RequestParam(value="name", required=false) String name,
 									 @RequestParam(value="parentName", required=false) String parentName) {
-		CategorySearchDto categorySearchDto = new CategorySearchDto(name, type, parentName);
+		SearchCategoryDto categorySearchDto = new SearchCategoryDto(name, type, parentName);
 		return this.categoryService.findAll(categorySearchDto);
 	}
 	
@@ -42,13 +42,13 @@ public class CategoryController {
 	}
 	
 	@RequestMapping(value="/category", method = RequestMethod.POST)
-	public Category create(@RequestBody Category category){
-		return this.categoryService.save(category);
+	public Category create(@RequestBody Category category) throws Exception {
+		return this.categoryService.create(category);
 	}
 	
 	@RequestMapping(value="/category", method = RequestMethod.PUT)
-	public Category update(@RequestBody Category category){
-		return this.categoryService.save(category);
+	public Category update(@RequestBody Category category) throws Exception {
+		return this.categoryService.update(category);
 	}
 	
 	@RequestMapping(value="/category/{id}", method = RequestMethod.DELETE)

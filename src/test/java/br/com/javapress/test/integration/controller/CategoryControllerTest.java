@@ -10,7 +10,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import org.junit.Test;
@@ -18,14 +17,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 
-import br.com.javapress.domain.dto.CategorySearchDto;
+import br.com.javapress.domain.dto.SearchCategoryDto;
 import br.com.javapress.domain.entity.post.Category;
 import br.com.javapress.domain.entity.post.CategoryType;
 import br.com.javapress.domain.repository.post.ICategoryRepository;
 import br.com.javapress.test.config.ControllerTestConfiguration;
 
 import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -60,12 +58,12 @@ public class CategoryControllerTest extends ControllerTestConfiguration {
     	category2.setType(CategoryType.POST);
     	this.categoryRepository.save(category2);
     	
-    	
-    	
-    	CategorySearchDto searchDto = new CategorySearchDto(null, CategoryType.POST, null);
+    	SearchCategoryDto searchDto = new SearchCategoryDto(null, CategoryType.POST, null);
     	
         MvcResult result = this.mockMvc.perform(get("/categories")
-    		.content(asJsonString(searchDto))
+    		.param("name", searchDto.getName())
+    		.param("type", searchDto.getType().toString())
+    		.param("parentName", searchDto.getParentName())
     		.accept(MediaType.parseMediaType("application/json;charset=UTF-8")))
             .andExpect(jsonPath("$.*").isArray())
             .andReturn();
@@ -75,12 +73,6 @@ public class CategoryControllerTest extends ControllerTestConfiguration {
         assertTrue(categories.size() >=2);
     }
 
-	private List<Category> deserializeJsonToCategoryList(MvcResult result) throws JsonParseException, JsonMappingException, IOException {
-		ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
-		String content = result.getResponse().getContentAsString();
-        return mapper.readValue(content, List.class);
-	}
-    
     @Test
     public void shouldCreate() throws Exception {
     	Category parent = new Category();
@@ -102,7 +94,7 @@ public class CategoryControllerTest extends ControllerTestConfiguration {
     	Category category = new Category();
     	category.setName(getRandomString());
     	category.setType(CategoryType.POST);
-    	this.categoryRepository.save(category);
+//    	this.categoryRepository.save(category);
     	
     	category.setName(getRandomString());
     	
@@ -126,4 +118,10 @@ public class CategoryControllerTest extends ControllerTestConfiguration {
         Category dbCategory = this.categoryRepository.findOne(category.getId());
         assertNull(dbCategory);
     }
+    
+    private List<Category> deserializeJsonToCategoryList(MvcResult result) throws JsonParseException, JsonMappingException, IOException {
+		ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
+		String content = result.getResponse().getContentAsString();
+        return mapper.readValue(content, List.class);
+	}
 }

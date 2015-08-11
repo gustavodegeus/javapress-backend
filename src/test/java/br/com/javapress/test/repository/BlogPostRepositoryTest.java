@@ -6,6 +6,10 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,12 +39,15 @@ public class BlogPostRepositoryTest extends TestConfiguration {
 	@Autowired
 	private ITagRepository tagRepository;
 	
+	@Autowired
+	private Validator validator;
+	
 	@Test
 	public void shouldCreateAndUpdateBlogPost(){
 		//Given
 		Category category = new Category();
 		category.setName(getRandomString());
-		category.setType(CategoryType.POST);
+		category.setType(CategoryType.RECIPE);
 		
 		Admin admin = new Admin();
 		admin.setEmail("email@email.com");
@@ -76,7 +83,7 @@ public class BlogPostRepositoryTest extends TestConfiguration {
 		assertEquals("Category should be equal", blogPost.getCategory().getName(), dbBlogPost.getCategory().getName());
 	}
 	
-	//@Test
+	@Test
 	public void shouldSaveDbTagAndNewTag(){
 		Tag dbTag = this.tagRepository.findById(1L);
 		
@@ -117,7 +124,7 @@ public class BlogPostRepositoryTest extends TestConfiguration {
 		this.postRepository.save(blogPost2);
 		
 		//When
-		List<BlogPost> blogPosts = this.postRepository.findAllBlogPosts();
+		List<BlogPost> blogPosts = this.postRepository.findBlogPostsByTitleAndCategoryId(null, null);
 		assertTrue("Size should be bigger than one", blogPosts.size()>1);
 	}
 	

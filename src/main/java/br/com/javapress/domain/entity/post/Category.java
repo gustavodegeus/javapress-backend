@@ -12,16 +12,18 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
+import br.com.javapress.application.validation.annotation.AssertIdNotNullForUpdate;
 import br.com.javapress.application.validation.annotation.AssertParentCategoryType;
+import br.com.javapress.application.validation.groups.PreUpdate;
 
 @SequenceGenerator(name = "category_gen", sequenceName = "CATEGORY_SEQUENCE", allocationSize=1)
 @Entity
 @Table(uniqueConstraints={@UniqueConstraint(columnNames={"name"}, name="category_name_uk")})
 @AssertParentCategoryType
 public class Category{
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "category_gen")
+	@AssertIdNotNullForUpdate(groups=PreUpdate.class)
 	private Long id;
 	private String name;
 	@ManyToOne

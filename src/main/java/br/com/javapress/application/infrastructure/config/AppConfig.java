@@ -6,6 +6,7 @@ import java.util.Properties;
 
 import javax.annotation.Resource;
 import javax.sql.DataSource;
+import javax.validation.Validator;
 
 import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.context.annotation.Bean;
@@ -18,6 +19,8 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 
 @Configuration
 @EnableTransactionManagement
@@ -82,5 +85,15 @@ public class AppConfig {
         JpaTransactionManager transactionManager = new JpaTransactionManager();
         transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
         return transactionManager;
+    }
+    
+    @Bean(name="validator")
+    public Validator validator() {
+       return new LocalValidatorFactoryBean();
+    }
+    
+    @Bean
+    public MethodValidationPostProcessor methodValidationPostProcessor(){
+    	return new MethodValidationPostProcessor();
     }
 }

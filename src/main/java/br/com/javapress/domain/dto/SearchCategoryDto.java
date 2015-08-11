@@ -2,14 +2,14 @@ package br.com.javapress.domain.dto;
 
 import br.com.javapress.domain.entity.post.CategoryType;
 
-public class CategorySearchDto {
+public class SearchCategoryDto {
 
 	private String name;
 	private CategoryType type;
 	private String parentName;
 	
 	
-	public CategorySearchDto(String name, CategoryType type, String parentName) {
+	public SearchCategoryDto(String name, CategoryType type, String parentName) {
 		this.name = name;
 		this.type = type;
 		this.parentName = parentName;

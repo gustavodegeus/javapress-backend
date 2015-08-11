@@ -3,7 +3,6 @@ package br.com.javapress.application.controller;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.ConstraintViolationException;
 
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +12,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.transaction.TransactionSystemException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -55,6 +55,20 @@ public class ExceptionController {
     public ErrorInfo transactionSystemException(HttpServletRequest req, TransactionSystemException ex) {
 		return getErrorInfoObject(ExceptionMessages.OPERATION_NOT_ALLOWED.toString(), req.getRequestURL().toString());
     }
+	
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseStatus(value=HttpStatus.BAD_REQUEST)
+	@ResponseBody
+    public ErrorInfo transactionSystemException(HttpServletRequest req, MethodArgumentNotValidException ex) {
+		return getErrorInfoObject(ExceptionMessages.INVALID_JSON_FORMAT.toString(), req.getRequestURL().toString());
+    }
+	
+	@ExceptionHandler(Exception.class)
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+	@ResponseBody
+	public ErrorInfo defaultHandler(HttpServletRequest req, Exception e){
+		return getErrorInfoObject(ExceptionMessages.INTERNAL_SERVER_ERROR.toString(), req.getRequestURL().toString());
+	}
 	
 	public ErrorInfo getErrorInfoObject(String errorMassage, String errorUrl){
 		Locale locale = LocaleContextHolder.getLocale();

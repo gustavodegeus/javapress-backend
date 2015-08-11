@@ -8,10 +8,13 @@ import javax.persistence.Enumerated;
 import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 
+import br.com.javapress.application.validation.annotation.AssertPostCategoryType;
+import br.com.javapress.domain.entity.post.CategoryType;
 import br.com.javapress.domain.entity.post.Post;
 
 @Entity
 @PrimaryKeyJoinColumn(name = "recipe_id", referencedColumnName = "post_id")
+@AssertPostCategoryType(value=CategoryType.RECIPE)
 public class Recipe extends Post{
 
 	private String cookTime;
