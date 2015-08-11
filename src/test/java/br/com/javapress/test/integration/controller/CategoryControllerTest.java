@@ -94,7 +94,7 @@ public class CategoryControllerTest extends ControllerTestConfiguration {
     	Category category = new Category();
     	category.setName(getRandomString());
     	category.setType(CategoryType.POST);
-//    	this.categoryRepository.save(category);
+    	this.categoryRepository.save(category);
     	
     	category.setName(getRandomString());
     	
