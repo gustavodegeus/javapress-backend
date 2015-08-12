@@ -11,10 +11,12 @@ public class ErrorInfo implements Serializable{
 	
 	private String url;
     private String message;
+    private String error;
      
-    public ErrorInfo(String url, String message) {
+    public ErrorInfo(String url, String message, String error) {
         this.url = url;
         this.message = message;
+        this.error = error;
     }
 
 	public String getUrl() {
@@ -32,6 +34,12 @@ public class ErrorInfo implements Serializable{
 	public void setMessage(String message) {
 		this.message = message;
 	}
-    
-    
+
+	public String getError() {
+		return error;
+	}
+
+	public void setError(String error) {
+		this.error = error;
+	}
 }

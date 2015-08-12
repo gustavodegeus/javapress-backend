@@ -29,11 +29,11 @@ public class CategoryController {
 	private CategoryService categoryService;
 	
 	@RequestMapping(value = "/categories", method = RequestMethod.GET)
-	public List<Category> findAll(@RequestParam(value="type", required=false) CategoryType type, 
+	public List<Category> find(@RequestParam(value="type", required=false) CategoryType type, 
 									 @RequestParam(value="name", required=false) String name,
 									 @RequestParam(value="parentName", required=false) String parentName) {
 		SearchCategoryDto categorySearchDto = new SearchCategoryDto(name, type, parentName);
-		return this.categoryService.findAll(categorySearchDto);
+		return this.categoryService.findByTypeAndNameAndParentName(categorySearchDto);
 	}
 	
 	@RequestMapping(value="/category/{id}", method = RequestMethod.GET)

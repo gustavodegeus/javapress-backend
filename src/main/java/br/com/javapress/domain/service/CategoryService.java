@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.javapress.application.validation.groups.PreUpdate;
 import br.com.javapress.domain.dto.SearchCategoryDto;
+import br.com.javapress.domain.dto.SuccessMessageDto;
 import br.com.javapress.domain.entity.post.Category;
 import br.com.javapress.domain.repository.post.ICategoryRepository;
 
@@ -56,11 +57,13 @@ public class CategoryService {
 	}
 
 	@Transactional
-	public void delete(Long id){
+	public SuccessMessageDto delete(Long id){
 		this.categoryRepository.delete(id);
+		//TODO i18n
+		return new SuccessMessageDto("Categoria removida com sucesso");
 	}
 	
-	public List<Category> findAll(SearchCategoryDto categorySearchDto){
+	public List<Category> findByTypeAndNameAndParentName(SearchCategoryDto categorySearchDto){
 		return this.categoryRepository.findByTypeAndNameAndParentName(categorySearchDto.getType(), categorySearchDto.getName(), categorySearchDto.getParentName());
 	}
 

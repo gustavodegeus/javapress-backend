@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.javapress.domain.dto.SearchBlogPostDto;
+import br.com.javapress.domain.dto.SuccessMessageDto;
 import br.com.javapress.domain.entity.post.BlogPost;
 import br.com.javapress.domain.entity.post.Post;
 import br.com.javapress.domain.service.CategoryService;
@@ -30,10 +31,10 @@ public class PostController {
 	
 	
 	@RequestMapping(value = "/blogPosts", method = RequestMethod.GET)
-	public List<BlogPost> findAllBlogPosts(@RequestParam(value="title",required=false) String title, 
+	public List<BlogPost> findBlogPosts(@RequestParam(value="title",required=false) String title, 
 										  @RequestParam(value="categoryId",required=false) Long categoryId) {
 		SearchBlogPostDto searchBlogPostDto = new SearchBlogPostDto(title, categoryId);
-		return this.postService.findAllBlogPosts(searchBlogPostDto);
+		return this.postService.findBlogPostsByTitleAndCategoryId(searchBlogPostDto);
 	}
 	
 	@RequestMapping(value="/post/{id}", method = RequestMethod.GET)
@@ -52,7 +53,7 @@ public class PostController {
 	}
 	
 	@RequestMapping(value="/post/{id}", method = RequestMethod.DELETE)
-	public void delete(@PathVariable Long id){
-		this.postService.delete(id);
+	public SuccessMessageDto delete(@PathVariable Long id){
+		return this.postService.delete(id);
 	}
 }

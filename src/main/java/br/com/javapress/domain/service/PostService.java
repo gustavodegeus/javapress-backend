@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.javapress.application.validation.groups.PreUpdate;
 import br.com.javapress.domain.dto.SearchBlogPostDto;
+import br.com.javapress.domain.dto.SuccessMessageDto;
 import br.com.javapress.domain.entity.post.BlogPost;
 import br.com.javapress.domain.entity.post.Post;
 import br.com.javapress.domain.entity.post.Tag;
@@ -75,11 +76,13 @@ public class PostService {
 	}
 	
 	@Transactional
-	public void delete(Long id){
+	public SuccessMessageDto delete(Long id){
 		this.postRepository.delete(id);
+		//TODO i18n
+		return new SuccessMessageDto("Post excluído com sucesso.");
 	}
 
-	public List<BlogPost> findAllBlogPosts(SearchBlogPostDto searchBlogPostDto){
+	public List<BlogPost> findBlogPostsByTitleAndCategoryId(SearchBlogPostDto searchBlogPostDto){
 		return this.postRepository.findBlogPostsByTitleAndCategoryId(searchBlogPostDto.getTitle(), searchBlogPostDto.getCategoryId()); 
 	}
 	

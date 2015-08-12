@@ -2,6 +2,7 @@ package br.com.javapress.domain.entity.post;
 
 import java.util.Calendar;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -19,6 +20,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -36,7 +38,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 @Inheritance(strategy=InheritanceType.JOINED)
 @Entity
 @SequenceGenerator(name = "post_gen", sequenceName = "BLOG_POST_SEQUENCE", allocationSize=1)
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME,include = JsonTypeInfo.As.PROPERTY,property = "type")  
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY,property = "type")  
 @JsonSubTypes({@Type(value = BlogPost.class, name = "POST"), @Type(value = Recipe.class, name = "RECIPE")})  
 public class Post extends AbstractEntity {
 	@Id
@@ -58,6 +60,8 @@ public class Post extends AbstractEntity {
 	private Admin owner;
 	@ManyToOne
 	private Category category;
+	@Transient
+	private List<Comment> comments;
 
 	public Category getCategory() {
 		return category;
@@ -113,5 +117,10 @@ public class Post extends AbstractEntity {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
+	public List<Comment> getComments() {
+		return comments;
+	}
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
+	}
 }
