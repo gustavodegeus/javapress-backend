@@ -11,12 +11,12 @@ public class PostCategoryTypeValidator implements ConstraintValidator<AssertPost
 	
 	private CategoryType type;
 	
-	@Override
+	
 	public void initialize(AssertPostCategoryType constraintAnnotation) {
 		type = constraintAnnotation.value();
 	}
 
-	@Override
+	
 	public boolean isValid(Post post, ConstraintValidatorContext context) {
 		if(post.getCategory() != null) {
 			return post.getCategory().getType().equals(type);

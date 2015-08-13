@@ -8,11 +8,9 @@ import br.com.javapress.domain.entity.post.Category;
 
 public class ParentCategoryTypeValidator implements ConstraintValidator<AssertParentCategoryType, Category> {
 	
-	@Override
 	public void initialize(AssertParentCategoryType constraintAnnotation) {
 	}
 
-	@Override
 	public boolean isValid(Category category, ConstraintValidatorContext context) {
 		if(category.getParent() != null){
 			return category.getParent().getType().equals(category.getType());
