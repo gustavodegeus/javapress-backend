@@ -18,7 +18,15 @@ public interface ICategoryRepository extends
 			+ "LEFT JOIN category.parent parent "
 			+ "WHERE (category.type = :type or :type = null) "
 			+ "AND (LOWER(category.name) like '%' || LOWER(CAST(:name AS string) || '%') or :name = null) "
-			+ "AND (LOWER(parent.name) like '%' || LOWER(CAST(:parentName AS string) || '%') or :parentName = null)")
+			+ "AND (LOWER(parent.name) like '%' || LOWER(CAST(:parentName AS string) || '%') or :parentName = null) "
+			+ "ORDER BY category.name")
 	public List<Category> findByTypeAndNameAndParentName(@Param("type") CategoryType type, @Param("name") String name, @Param("parentName") String parentName);
+	
+	
+	@Query("SELECT category FROM Category category "
+			+ "WHERE category.parent = null "
+			+ "AND (category.type = :type or :type = null) "
+			+ "ORDER BY category.name")			
+	public List<Category> findParentCategoriesByType(@Param("type") CategoryType type);
 
 }

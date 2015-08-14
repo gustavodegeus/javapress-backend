@@ -36,6 +36,11 @@ public class CategoryController {
 		return this.categoryService.findByTypeAndNameAndParentName(categorySearchDto);
 	}
 	
+	@RequestMapping(value = "/parentCategories", method = RequestMethod.GET)
+	public List<Category> findParentCategoriesByType(@RequestParam(value="type", required=false) CategoryType type) {		
+		return this.categoryService.findParentCategoriesByType(type);
+	}
+	
 	@RequestMapping(value="/category/{id}", method = RequestMethod.GET)
 	public Category findById(@PathVariable Long id){
 		return this.categoryService.findById(id);

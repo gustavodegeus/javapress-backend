@@ -14,6 +14,7 @@ import br.com.javapress.application.validation.groups.PreUpdate;
 import br.com.javapress.domain.dto.SearchCategoryDto;
 import br.com.javapress.domain.dto.SuccessMessageDto;
 import br.com.javapress.domain.entity.post.Category;
+import br.com.javapress.domain.entity.post.CategoryType;
 import br.com.javapress.domain.repository.post.ICategoryRepository;
 
 @Service
@@ -69,5 +70,9 @@ public class CategoryService {
 
 	public Category findById(Long id) {
 		return this.categoryRepository.findOne(id);
+	}
+
+	public List<Category> findParentCategoriesByType(CategoryType type) {
+		return this.categoryRepository.findParentCategoriesByType(type);
 	}
 }
