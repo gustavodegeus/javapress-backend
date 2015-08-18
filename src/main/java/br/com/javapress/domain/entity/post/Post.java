@@ -58,7 +58,7 @@ public class Post extends AbstractEntity {
 	private Set<Tag> tags;
 	@ManyToOne
 	private Admin owner;
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.EAGER)
 	private Category category;
 	@Transient
 	private List<Comment> comments;
