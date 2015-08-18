@@ -43,12 +43,12 @@ public class CommentController {
 	}
 	
 	@RequestMapping(value="/comment", method = RequestMethod.POST)
-	public Comment create(@RequestBody Comment comment) throws Exception{
+	public SuccessMessageDto create(@RequestBody Comment comment) throws Exception{
 		return this.commentService.create(comment);
 	}
 	
 	@RequestMapping(value="/comment", method = RequestMethod.PUT)
-	public Comment update(@RequestBody Comment comment) throws Exception{
+	public SuccessMessageDto update(@RequestBody Comment comment) throws Exception{
 		return this.commentService.update(comment);
 	}
 	

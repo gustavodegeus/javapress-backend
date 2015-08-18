@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 
+import br.com.javapress.domain.dto.SuccessMessageDto;
 import br.com.javapress.domain.entity.post.BlogPost;
 import br.com.javapress.domain.repository.post.IPostRepository;
 import br.com.javapress.test.config.ControllerTestConfiguration;
@@ -71,17 +72,19 @@ public class BlogPostControllerTest extends ControllerTestConfiguration {
          assertEquals("Post title", post.getTitle(), posts.get(0).getTitle());
     }
     
-    @Test
+    @SuppressWarnings("unchecked")
+	@Test
     public void shouldCreate() throws Exception {
     	BlogPost post = this.getObject();
     	
     	MvcResult result = this.mockMvc.perform(post("/post").contentType(MediaType.APPLICATION_JSON_VALUE)
         	.content(asJsonString(post)).accept(MediaType.parseMediaType("application/json;charset=UTF-8")))
-            .andExpect(jsonPath("$.title").value(post.getTitle()))
+            .andExpect(jsonPath("$.value.title").value(post.getTitle()))
             .andReturn();
         
     	ObjectMapper mapper = new ObjectMapper();
-    	post = mapper.readValue(result.getResponse().getContentAsString(), BlogPost.class);
+    	SuccessMessageDto successMessageDto = mapper.readValue(result.getResponse().getContentAsString(), SuccessMessageDto.class);
+    	post = this.converJsonIntoObject((LinkedHashMap<String, Object>) successMessageDto.getValue());
         assertNotNull("Post id should not be null", post.getId());
     }
     
@@ -94,7 +97,7 @@ public class BlogPostControllerTest extends ControllerTestConfiguration {
     	
     	this.mockMvc.perform(put("/post").contentType(MediaType.APPLICATION_JSON_VALUE)
         	.content(asJsonString(post)).accept(MediaType.parseMediaType("application/json;charset=UTF-8")))
-            .andExpect(jsonPath("$.title").value(post.getTitle()))
+            .andExpect(jsonPath("$.value.title").value(post.getTitle()))
             .andReturn();
         
     }

@@ -37,12 +37,12 @@ public class RecipeController {
 	}
 	
 	@RequestMapping(value="/recipe", method = RequestMethod.POST)
-	public Recipe create(@RequestBody Recipe recipe) throws Exception{
+	public SuccessMessageDto create(@RequestBody Recipe recipe) throws Exception{
 		return this.recipeService.create(recipe);
 	}
 	
 	@RequestMapping(value="/recipe", method = RequestMethod.PUT)
-	public Recipe update(@RequestBody Recipe recipe) throws Exception{
+	public SuccessMessageDto update(@RequestBody Recipe recipe) throws Exception{
 		return this.recipeService.update(recipe);
 	}
 	

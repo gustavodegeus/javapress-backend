@@ -26,19 +26,19 @@ public class CommentService {
 	private Validator validator;
 	
 	@Transactional
-	public Comment create(Comment comment) throws Exception{
+	public SuccessMessageDto create(Comment comment) throws Exception{
 		comment.setPublished(false);
 		comment.setAnswer(null);
 		this.validate(comment);
-		return this.commentRepository.save(comment);
+		return new SuccessMessageDto("Comentário adicionado com sucesso.", this.commentRepository.save(comment));
 	}
 	
 	@Transactional
-	public Comment update(Comment comment) throws Exception{
+	public SuccessMessageDto update(Comment comment) throws Exception{
 		comment.setPublished(false);
 		comment.setAnswer(null);	
 		this.validate(comment,PreUpdate.class);
-		return this.commentRepository.save(comment);
+		return new SuccessMessageDto("Comentário atualizado com sucesso.", this.commentRepository.save(comment));
 	}
 	
 	private void validate(Comment comment,Class<?>... classes) throws Exception{
@@ -63,18 +63,17 @@ public class CommentService {
 	public SuccessMessageDto publish(Long commentId){
 		Comment comment = this.commentRepository.findOne(commentId);
 		comment.setPublished(true);
-		this.commentRepository.save(comment);
 		//TODO i18n
-		return new SuccessMessageDto("Comentário publicado com sucesso.");
+		return new SuccessMessageDto("Comentário publicado com sucesso.",this.commentRepository.save(comment));
 	}
 	
 	@Transactional
 	public SuccessMessageDto reply(Long commentId, String answer ){
 		Comment comment = this.commentRepository.findOne(commentId);
 		comment.setAnswer(answer);
-		this.commentRepository.save(comment);
+		
 		//TODO i18n
-		return new SuccessMessageDto("Comentário respondido com sucesso.");
+		return new SuccessMessageDto("Comentário respondido com sucesso.",this.commentRepository.save(comment));
 	}
 	
 	@Transactional

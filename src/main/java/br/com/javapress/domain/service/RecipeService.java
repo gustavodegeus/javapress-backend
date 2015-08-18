@@ -28,16 +28,16 @@ public class RecipeService{
 	@Autowired
 	private PostService postService;
 	
-	public Recipe create(Recipe recipe) throws Exception{
+	public SuccessMessageDto create(Recipe recipe) throws Exception{
 		this.postService.loadPostData(recipe);
 		this.validate(recipe);
-		return this.save(recipe);
+		return new SuccessMessageDto("Receita criada com sucesso.", this.save(recipe));
 	}
 	
-	public Recipe update(Recipe recipe) throws Exception{
+	public SuccessMessageDto update(Recipe recipe) throws Exception{
 		this.postService.loadPostData(recipe);
 		this.validate(recipe,PreUpdate.class);
-		return this.save(recipe);
+		return new SuccessMessageDto("Receita atualizada com sucesso.", this.save(recipe));
 	}
 	
 	protected void validate(Recipe recipe,Class<?>... classes) throws Exception{

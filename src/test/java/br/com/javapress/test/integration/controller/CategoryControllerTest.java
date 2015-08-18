@@ -86,7 +86,7 @@ public class CategoryControllerTest extends ControllerTestConfiguration {
     	
         this.mockMvc.perform(post("/category").contentType(MediaType.APPLICATION_JSON_VALUE)
         	.content(asJsonString(category)).accept(MediaType.parseMediaType("application/json;charset=UTF-8")))
-            .andExpect(jsonPath("$.name").value(category.getName()));
+            .andExpect(jsonPath("$.value.name").value(category.getName()));
     }
     
     @Test
@@ -100,7 +100,7 @@ public class CategoryControllerTest extends ControllerTestConfiguration {
     	
         this.mockMvc.perform(put("/category").contentType(MediaType.APPLICATION_JSON_VALUE)
         	.content(asJsonString(category)).accept(MediaType.parseMediaType("application/json;charset=UTF-8")))
-            .andExpect(jsonPath("$.name").value(category.getName()));
+            .andExpect(jsonPath("$.value.name").value(category.getName()));
         
         Category dbCategory = this.categoryRepository.findOne(category.getId());
         assertEquals(dbCategory.getName(), category.getName());

@@ -27,17 +27,17 @@ public class CategoryService {
 	private Validator validator;
 	
 	@Transactional
-	public Category create(Category category) throws Exception{
+	public SuccessMessageDto create(Category category) throws Exception{
 		this.loadCategoryData(category);
 		this.validate(category);
-		return this.categoryRepository.save(category);
+		return new SuccessMessageDto("Categoria criada com sucesso", this.categoryRepository.save(category));
 	}
 	
 	@Transactional
-	public Category update(Category category) throws Exception{
+	public SuccessMessageDto update(Category category) throws Exception{
 		this.loadCategoryData(category);
 		this.validate(category, PreUpdate.class);
-		return this.categoryRepository.save(category);
+		return new SuccessMessageDto("Categoria atualizada com sucesso", this.categoryRepository.save(category));
 	}
 	
 	private void loadCategoryData(Category category){

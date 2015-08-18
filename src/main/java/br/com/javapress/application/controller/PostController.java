@@ -38,12 +38,12 @@ public class PostController {
 	}
 	
 	@RequestMapping(value="/post", method = RequestMethod.POST)
-	public Post create(@RequestBody Post post) throws Exception{
+	public SuccessMessageDto create(@RequestBody Post post) throws Exception{
 		return this.postService.create(post);
 	}
 	
 	@RequestMapping(value="/post", method = RequestMethod.PUT)
-	public Post update(@RequestBody Post post) throws Exception{
+	public SuccessMessageDto update(@RequestBody Post post) throws Exception{
 		return this.postService.update(post);
 	}
 	

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.javapress.domain.dto.SearchCategoryDto;
+import br.com.javapress.domain.dto.SuccessMessageDto;
 import br.com.javapress.domain.entity.post.Category;
 import br.com.javapress.domain.entity.post.CategoryType;
 import br.com.javapress.domain.service.CategoryService;
@@ -47,12 +48,12 @@ public class CategoryController {
 	}
 	
 	@RequestMapping(value="/category", method = RequestMethod.POST)
-	public Category create(@RequestBody Category category) throws Exception {
+	public SuccessMessageDto create(@RequestBody Category category) throws Exception {
 		return this.categoryService.create(category);
 	}
 	
 	@RequestMapping(value="/category", method = RequestMethod.PUT)
-	public Category update(@RequestBody Category category) throws Exception {
+	public SuccessMessageDto update(@RequestBody Category category) throws Exception {
 		return this.categoryService.update(category);
 	}
 	

@@ -40,16 +40,16 @@ public class PostService {
 	@Autowired
 	protected Validator validator;
 	
-	public Post create(Post post) throws Exception{
+	public SuccessMessageDto create(Post post) throws Exception{
 		this.loadPostData(post);
 		this.validate(post);
-		return this.save(post);
+		return new SuccessMessageDto("Post criado com sucesso", this.save(post));
 	}
 	
-	public Post update(Post post) throws Exception{
+	public SuccessMessageDto update(Post post) throws Exception{
 		this.loadPostData(post);
 		this.validate(post,PreUpdate.class);
-		return this.save(post);
+		return new SuccessMessageDto("Post criado com sucesso", this.save(post));
 	}
 	
 	protected void loadPostData(Post post){
