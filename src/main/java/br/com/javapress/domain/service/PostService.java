@@ -26,19 +26,19 @@ import br.com.javapress.domain.repository.user.IAdminRepository;
 public class PostService {
 
 	@Autowired
-	private IPostRepository postRepository;
+	protected IPostRepository postRepository;
 	
 	@Autowired
-	private ICategoryRepository categoryRepository;
+	protected ICategoryRepository categoryRepository;
 	
 	@Autowired
-	private IAdminRepository adminRepository;
+	protected IAdminRepository adminRepository;
 	
 	@Autowired
-	private ITagRepository tagRepository;
+	protected ITagRepository tagRepository;
 	
 	@Autowired
-	private Validator validator;
+	protected Validator validator;
 	
 	public Post create(Post post) throws Exception{
 		this.loadPostData(post);
@@ -52,13 +52,13 @@ public class PostService {
 		return this.save(post);
 	}
 	
-	private void loadPostData(Post post){
+	protected void loadPostData(Post post){
 		if(post.getCategory() != null){
 			post.setCategory(this.categoryRepository.findOne(post.getCategory().getId()));
 		}
 	}
 	
-	private void validate(Post post,Class<?>... classes) throws Exception{
+	protected void validate(Post post,Class<?>... classes) throws Exception{
 		String message = "";
 		Set<ConstraintViolation<Post>> constraintViolations = validator.validate( post, classes );
 		if(constraintViolations.size() > 0){
@@ -70,7 +70,7 @@ public class PostService {
 	}
 	
 	@Transactional
-	private Post save(Post post){
+	protected Post save(Post post){
 		prepareTags(post);
 		return this.postRepository.save(post);
 	}
@@ -94,7 +94,7 @@ public class PostService {
 		return this.postRepository.findOne(id);
 	}
 	
-	private void prepareTags(Post post){
+	protected void prepareTags(Post post){
 		Set<Tag> tags = new HashSet<Tag>();
 		for (Tag tag : post.getTags()) {
 			Tag dbTag = this.tagRepository.findByName(tag.getName()); 

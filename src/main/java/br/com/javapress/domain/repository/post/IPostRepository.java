@@ -17,8 +17,9 @@ public interface IPostRepository extends
 	
 	@Query("FROM BlogPost WHERE (LOWER(title) LIKE LOWER('%' || CAST(:title AS string)|| '%') or :title is null) "
 			+ "AND (category.id = :categoryId or :categoryId is null)")	
-	public List<BlogPost> findBlogPostsByTitleAndCategoryId(@Param("title") String title, @Param("categoryId") Long categoryId);	
+	public List<BlogPost> findBlogPostsByTitleAndCategoryId(@Param("title") String title, @Param("categoryId") Long categoryId);
 	
-	@Query("from Recipe")	
-	public List<Recipe> findAllRecipes();
+	@Query("FROM Recipe WHERE (LOWER(title) LIKE LOWER('%' || CAST(:title AS string)|| '%') or :title is null) "
+			+ "AND (category.id = :categoryId or :categoryId is null)")	
+	public List<Recipe> findRecipeByTitleAndCategoryId(@Param("title") String title, @Param("categoryId") Long categoryId);
 }

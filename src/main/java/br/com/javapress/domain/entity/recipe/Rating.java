@@ -6,6 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
+import javax.validation.constraints.NotNull;
 
 import br.com.javapress.domain.entity.AbstractEntity;
 import br.com.javapress.domain.entity.user.Client;
@@ -17,10 +18,13 @@ public class Rating extends AbstractEntity{
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "rating_gen")
 	private Long id;
-	@ManyToOne
+	@ManyToOne(optional=false)
+	@NotNull
 	private Client client;
-	@ManyToOne
+	@ManyToOne(optional=false)
+	@NotNull
 	private Recipe recipe;
+	@NotNull
 	private int rating;
 	
 	public Client getClient() {

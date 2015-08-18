@@ -9,6 +9,11 @@ public class SuccessMessageDto {
 		this.message = message;
 	}
 	
+	public SuccessMessageDto(String message, Object value){
+		this.message = message;
+		this.value = value;
+	}
+	
 	public String getMessage() {
 		return message;
 	}

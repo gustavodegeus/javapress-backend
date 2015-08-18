@@ -1,12 +1,16 @@
 package br.com.javapress.domain.entity.recipe;
 
+import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Transient;
 
 import br.com.javapress.application.validation.annotation.AssertPostCategoryType;
 import br.com.javapress.domain.entity.post.CategoryType;
@@ -19,13 +23,19 @@ public class Recipe extends Post{
 
 	private String cookTime;
 	private String servings;
+	@Transient
 	private int rating;
-	@OneToMany
+	@OneToMany(cascade={CascadeType.PERSIST,CascadeType.MERGE}, fetch=FetchType.EAGER, orphanRemoval=true)
 	private Set<Ingredient> ingredients;
-	@OneToMany
-	private Set<Step>steps;
+	@OneToMany(cascade={CascadeType.PERSIST,CascadeType.MERGE}, fetch=FetchType.EAGER, orphanRemoval=true)
+	private Set<Step> steps;
 	@Enumerated(EnumType.ORDINAL)
 	private Dificulty dificulty;
+	
+	public Recipe(){
+		this.steps = new HashSet<Step>();
+		this.ingredients = new HashSet<Ingredient>();
+	}
 	
 	public String getCookTime() {
 		return cookTime;
@@ -62,5 +72,11 @@ public class Recipe extends Post{
 	}
 	public void setDificulty(Dificulty dificulty) {
 		this.dificulty = dificulty;
+	}
+	public void addIngredient(Ingredient ingredient){
+		this.ingredients.add(ingredient);
+	}
+	public void addStep(Step step){
+		this.steps.add(step);
 	}
 }

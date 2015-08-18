@@ -62,15 +62,16 @@ public class Post extends AbstractEntity {
 	private Category category;
 	@Transient
 	private List<Comment> comments;
+	
+	public Post(){
+		this.tags = new HashSet<Tag>();
+	}
 
 	public Category getCategory() {
 		return category;
 	}
 	public void setCategory(Category category) {
 		this.category = category;
-	}
-	public Post(){
-		this.tags = new HashSet<Tag>();
 	}
 	public String getTitle() {
 		return title;

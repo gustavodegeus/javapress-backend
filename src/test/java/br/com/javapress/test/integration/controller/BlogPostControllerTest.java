@@ -1,7 +1,13 @@
 package br.com.javapress.test.integration.controller;
 
-import static org.junit.Assert.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 import java.io.IOException;
@@ -15,8 +21,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 
 import br.com.javapress.domain.entity.post.BlogPost;
-import br.com.javapress.domain.entity.post.Category;
-import br.com.javapress.domain.entity.post.CategoryType;
 import br.com.javapress.domain.repository.post.IPostRepository;
 import br.com.javapress.test.config.ControllerTestConfiguration;
 

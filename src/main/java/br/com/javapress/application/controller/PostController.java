@@ -14,7 +14,6 @@ import br.com.javapress.domain.dto.SearchBlogPostDto;
 import br.com.javapress.domain.dto.SuccessMessageDto;
 import br.com.javapress.domain.entity.post.BlogPost;
 import br.com.javapress.domain.entity.post.Post;
-import br.com.javapress.domain.service.CategoryService;
 import br.com.javapress.domain.service.PostService;
 
 /**
@@ -25,10 +24,6 @@ public class PostController {
 	
 	@Autowired
 	private PostService postService;
-	
-	@Autowired
-	private CategoryService categoryService;
-	
 	
 	@RequestMapping(value = "/blogPosts", method = RequestMethod.GET)
 	public List<BlogPost> findBlogPosts(@RequestParam(value="title",required=false) String title, 
