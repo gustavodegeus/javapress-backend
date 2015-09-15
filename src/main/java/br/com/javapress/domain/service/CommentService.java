@@ -30,15 +30,13 @@ public class CommentService {
 		comment.setPublished(false);
 		comment.setAnswer(null);
 		this.validate(comment);
-		return new SuccessMessageDto("Comentário adicionado com sucesso.", this.commentRepository.save(comment));
+		return new SuccessMessageDto("Comentï¿½rio adicionado com sucesso.", this.commentRepository.save(comment));
 	}
 	
 	@Transactional
 	public SuccessMessageDto update(Comment comment) throws Exception{
-		comment.setPublished(false);
-		comment.setAnswer(null);	
 		this.validate(comment,PreUpdate.class);
-		return new SuccessMessageDto("Comentário atualizado com sucesso.", this.commentRepository.save(comment));
+		return new SuccessMessageDto("Comentï¿½rio atualizado com sucesso.", this.commentRepository.save(comment));
 	}
 	
 	private void validate(Comment comment,Class<?>... classes) throws Exception{
@@ -56,7 +54,7 @@ public class CommentService {
 	public SuccessMessageDto delete(Long id){
 		this.commentRepository.delete(id);
 		//TODO i18n
-		return new SuccessMessageDto("Comentário excluído com sucesso.");
+		return new SuccessMessageDto("Comentï¿½rio excluï¿½do com sucesso.");
 	}
 	
 	@Transactional
@@ -64,7 +62,7 @@ public class CommentService {
 		Comment comment = this.commentRepository.findOne(commentId);
 		comment.setPublished(true);
 		//TODO i18n
-		return new SuccessMessageDto("Comentário publicado com sucesso.",this.commentRepository.save(comment));
+		return new SuccessMessageDto("Comentï¿½rio publicado com sucesso.",this.commentRepository.save(comment));
 	}
 	
 	@Transactional
@@ -73,7 +71,7 @@ public class CommentService {
 		comment.setAnswer(answer);
 		
 		//TODO i18n
-		return new SuccessMessageDto("Comentário respondido com sucesso.",this.commentRepository.save(comment));
+		return new SuccessMessageDto("Comentï¿½rio respondido com sucesso.",this.commentRepository.save(comment));
 	}
 	
 	@Transactional
@@ -82,7 +80,7 @@ public class CommentService {
 		comment.setAnswer(answer);
 		comment.setPublished(true);
 		this.commentRepository.save(comment);
-		return new SuccessMessageDto("Comentário respondido e publicado com sucesso.");
+		return new SuccessMessageDto("Comentï¿½rio respondido e publicado com sucesso.");
 	}
 
 	public List<Comment> findByContentAndAnswerAndPostId(SearchCommentDto searchCommentDto){
