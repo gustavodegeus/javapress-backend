@@ -16,9 +16,6 @@ import br.com.javapress.domain.entity.post.BlogPost;
 import br.com.javapress.domain.entity.post.Post;
 import br.com.javapress.domain.service.PostService;
 
-/**
- * Handles requests for the application home page.
- */
 @RestController
 public class PostController {
 	

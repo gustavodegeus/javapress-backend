@@ -15,9 +15,6 @@ import br.com.javapress.domain.dto.SuccessMessageDto;
 import br.com.javapress.domain.entity.recipe.Recipe;
 import br.com.javapress.domain.service.RecipeService;
 
-/**
- * Handles requests for the application home page.
- */
 @RestController
 public class RecipeController {
 	

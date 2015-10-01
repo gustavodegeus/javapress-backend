@@ -16,9 +16,6 @@ import br.com.javapress.domain.entity.post.Comment;
 import br.com.javapress.domain.service.CategoryService;
 import br.com.javapress.domain.service.CommentService;
 
-/**
- * Handles requests for the application home page.
- */
 @RestController
 public class CommentController {
 	

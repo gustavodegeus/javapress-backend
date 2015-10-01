@@ -17,9 +17,6 @@ import br.com.javapress.domain.entity.post.Category;
 import br.com.javapress.domain.entity.post.CategoryType;
 import br.com.javapress.domain.service.CategoryService;
 
-/**
- * Handles requests for the application home page.
- */
 @RestController
 public class CategoryController {
 
