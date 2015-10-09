@@ -28,7 +28,7 @@ public class AuthenticationController {
 		User user = this.userDetailsService.login(userDto);
 		if ( user != null ){
 			UserAuthentication authentication = new UserAuthentication(user);
-			tokenAuthenticationService.addAuthentication(response, authentication);
+			tokenAuthenticationService.addAuthenticationToken(response, authentication);
 		}
 	}
 	

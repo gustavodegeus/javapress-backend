@@ -12,7 +12,6 @@ import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -28,7 +27,6 @@ import org.springframework.validation.beanvalidation.MethodValidationPostProcess
 @EnableJpaRepositories(basePackages = {"br.com.javapress.domain.repository"})
 @PropertySource("classpath:persistence.properties")	
 @ComponentScan(basePackages = {"br.com.javapress.domain","br.com.javapress.application.infrastructure.config.security"})
-@ImportResource("WEB-INF/spring-aws.xml")
 public class AppConfig {
 	
 	private static final String PROPERTY_DATABASE_DRIVER = "db.driver";

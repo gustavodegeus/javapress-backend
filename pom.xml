@@ -215,8 +215,7 @@
 		    <groupId>io.jsonwebtoken</groupId>
 		    <artifactId>jjwt</artifactId>
 		    <version>0.4</version>
-		</dependency>
-		
+		</dependency>		
 	</dependencies>
     <build>
             <plugins>

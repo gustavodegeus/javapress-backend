@@ -18,31 +18,31 @@ public class UserAuthentication implements Authentication{
         this.user = user;
     }
     
-	@Override
+	
 	public String getName() {
 		return user.getUsername();
 	}
-	@Override
+	
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return user.getAuthorities();
 	}
-	@Override
+	
 	public Object getCredentials() {
 		return user.getPassword();
 	}
-	@Override
+	
 	public Object getDetails() {
 		return user;
 	}
-	@Override
+	
 	public Object getPrincipal() {
 		return user.getUsername();
 	}
-	@Override
+	
 	public boolean isAuthenticated() {
 		return authenticated;
 	}
-	@Override
+	
 	public void setAuthenticated(boolean isAuthenticated)
 			throws IllegalArgumentException {
 		this.authenticated = isAuthenticated;

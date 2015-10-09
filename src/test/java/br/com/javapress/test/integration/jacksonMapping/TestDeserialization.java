@@ -6,12 +6,12 @@ import java.io.IOException;
 
 import org.junit.Test;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import br.com.javapress.domain.entity.post.Category;
 import br.com.javapress.domain.entity.post.CategoryType;
 import br.com.javapress.test.config.TestConfiguration;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class TestDeserialization extends TestConfiguration{
 

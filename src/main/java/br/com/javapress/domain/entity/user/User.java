@@ -1,5 +1,6 @@
 package br.com.javapress.domain.entity.user;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.persistence.Column;
@@ -17,10 +18,10 @@ import javax.validation.constraints.NotNull;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import br.com.javapress.domain.entity.AbstractEntity;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import br.com.javapress.domain.entity.AbstractEntity;
 
 @Inheritance(strategy=InheritanceType.JOINED)
 @Entity
@@ -58,7 +59,7 @@ public class User extends AbstractEntity implements UserDetails{
 	private String newPassword;
 	@Transient
 	@JsonIgnore
-	private Collection<? extends GrantedAuthority> authorities = null;
+	private Collection<? extends GrantedAuthority> authorities;
 	@JsonIgnore
 	@Transient
 	private UserRole userRole;
@@ -85,11 +86,11 @@ public class User extends AbstractEntity implements UserDetails{
 		this.id = id;
 	}	
 	@JsonIgnore
-	@Override
+	
 	public String getPassword() {
 		return password;
 	}
-	@Override
+	
 	public String getUsername(){
 		return this.email;
 	}
@@ -108,19 +109,19 @@ public class User extends AbstractEntity implements UserDetails{
 	public String toString() {
 		return getClass().getSimpleName() + ": " + getUsername();
 	}
-	@Override
+	
 	public boolean isAccountNonExpired() {
 		return true;
 	}
-	@Override
+	
 	public boolean isAccountNonLocked() {
 		return true;
 	}
-	@Override
+	
 	public boolean isCredentialsNonExpired() {
 		return true;
 	}
-	@Override
+	
 	public boolean isEnabled() {
 		return true;
 	}
@@ -129,8 +130,12 @@ public class User extends AbstractEntity implements UserDetails{
 		this.authorities = authorities;
 	}
 	
-	@Override
+	
 	public Collection<? extends GrantedAuthority> getAuthorities() {
+		if(this.authorities == null)
+		{
+			return new ArrayList<GrantedAuthority>();
+		}
 		return authorities;
 	}
 }

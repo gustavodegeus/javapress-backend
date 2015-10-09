@@ -25,15 +25,15 @@ import javax.persistence.Transient;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
 import br.com.javapress.application.validation.annotation.AssertIdNotNullForUpdate;
 import br.com.javapress.application.validation.groups.PreUpdate;
 import br.com.javapress.domain.entity.AbstractEntity;
 import br.com.javapress.domain.entity.recipe.Recipe;
 import br.com.javapress.domain.entity.user.Admin;
-
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 @Inheritance(strategy=InheritanceType.JOINED)
 @Entity

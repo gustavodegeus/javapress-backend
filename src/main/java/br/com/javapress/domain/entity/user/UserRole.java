@@ -13,10 +13,6 @@ public enum UserRole implements GrantedAuthority
 	//DON'T CHANGE ORDER
 	CLIENT, ADMIN;
 	
-	/**
-	 * 
-	 */
-	@Override
 	public String getAuthority()
 	{
 		return this.name();

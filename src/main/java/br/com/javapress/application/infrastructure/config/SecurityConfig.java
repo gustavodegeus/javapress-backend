@@ -2,7 +2,6 @@ package br.com.javapress.application.infrastructure.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,11 +12,14 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.access.AccessDeniedHandlerImpl;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import br.com.javapress.application.infrastructure.config.security.StatelessAuthenticationFilter;
 import br.com.javapress.application.infrastructure.config.security.TokenAuthenticationService;
 import br.com.javapress.application.infrastructure.config.security.TokenHandler;
+import br.com.javapress.application.infrastructure.config.security.filters.CORSFilter;
+import br.com.javapress.application.infrastructure.config.security.filters.StatelessAuthenticationFilter;
+import br.com.javapress.domain.entity.user.UserRole;
 import br.com.javapress.domain.service.CustomUserDetailsService;
 
 @Configuration
@@ -26,11 +28,11 @@ import br.com.javapress.domain.service.CustomUserDetailsService;
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	
 	@Autowired
-	private CustomUserDetailsService userDetailsService;
-	@Autowired
-    private TokenAuthenticationService tokenAuthenticationService;
+	private CustomUserDetailsService userDetailsService;	
 	@Autowired
 	private StatelessAuthenticationFilter statelessAuthenticationFilter;
+	@Autowired
+	private CORSFilter corsFilter;
     
 	 public SecurityConfig() {
 	      super(true);
@@ -57,23 +59,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	  }
 
 	  @Override
-	  protected void configure(HttpSecurity http) throws Exception {
+	  protected void configure(HttpSecurity http) throws Exception {		  
 		  http
-		  .csrf().disable()
-		  .anonymous().and()
+		  .exceptionHandling().accessDeniedHandler(new AccessDeniedHandlerImpl())
+		  .and()
+		  .anonymous()
+		  .and()
 		  .authorizeRequests()
-			
 		   //allow anonymous resource requests
 		   .antMatchers("/favicon.ico").permitAll()
 		   .antMatchers("/resources/**").permitAll()
-			
 		   //allow anonymous POSTs to login
 		   .antMatchers(HttpMethod.POST, "/login").permitAll()
-		   .antMatchers("/**").hasRole("ADMIN")
+		   .antMatchers("/**").hasAnyAuthority(UserRole.ADMIN.getAuthority(), UserRole.CLIENT.getAuthority())
 		   .and()
 		   // Custom Token based authentication based on the header previously given to the client
            .addFilterBefore(statelessAuthenticationFilter,
-                    UsernamePasswordAuthenticationFilter.class);
+                    UsernamePasswordAuthenticationFilter.class)
+		  .addFilterBefore(corsFilter,
+                  StatelessAuthenticationFilter.class);
 	  }
 	  
 	  @Override
@@ -86,14 +90,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	  public AuthenticationManager authenticationManagerBean() throws Exception {
 	      return super.authenticationManagerBean();
 	  }
-	  
-	  @Bean
-	  public StatelessAuthenticationFilter statelessAuthenticationFilter(){
-		  StatelessAuthenticationFilter statelessAuthenticationFilter = new StatelessAuthenticationFilter();
-		  statelessAuthenticationFilter.setAuthenticationService(tokenAuthenticationService());
-		  return statelessAuthenticationFilter;
-	  }
-	  
+	  	  
 	  @Bean 
 	  public TokenAuthenticationService tokenAuthenticationService(){
 		  TokenAuthenticationService tokenAuthenticationService = new TokenAuthenticationService();

@@ -17,16 +17,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import br.com.javapress.domain.dto.SearchCategoryDto;
 import br.com.javapress.domain.entity.post.Category;
 import br.com.javapress.domain.entity.post.CategoryType;
 import br.com.javapress.domain.repository.post.ICategoryRepository;
 import br.com.javapress.test.config.ControllerTestConfiguration;
-
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class CategoryControllerTest extends ControllerTestConfiguration {
 
