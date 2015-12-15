@@ -1,4 +1,4 @@
-package br.com.javapress.application.infrastructure.config.webappinitializers;
+package br.com.javapress.infrastructure.webappinitializers;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletRegistration;
@@ -7,8 +7,8 @@ import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 
-import br.com.javapress.application.infrastructure.config.AppConfig;
-import br.com.javapress.application.infrastructure.config.MvcConfig;
+import br.com.javapress.infrastructure.config.AppConfig;
+import br.com.javapress.infrastructure.config.MvcConfig;
 
 public class WebAppInitializer implements WebApplicationInitializer {
 

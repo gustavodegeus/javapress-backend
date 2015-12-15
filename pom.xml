@@ -15,6 +15,7 @@
 		<org.slf4j-version>1.6.6</org.slf4j-version>
 		<spring-data.version>1.8.0.RELEASE</spring-data.version>
 		<hibernate.version>4.3.10.Final</hibernate.version>
+		<aws-java-jdk.version>1.10.40</aws-java-jdk.version>
 	</properties>
 	<dependencies>
 		<!-- Spring -->
@@ -30,12 +31,6 @@
 				 </exclusion>
 			</exclusions>
 		</dependency>
-		
-		<dependency>
-		    <groupId>org.springframework.cloud</groupId>
-		    <artifactId>spring-cloud-aws-context</artifactId>
-		    <version>1.0.2.RELEASE</version>
-	    </dependency>
 		
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -216,6 +211,14 @@
 		    <artifactId>jjwt</artifactId>
 		    <version>0.4</version>
 		</dependency>		
+		
+		<!-- AWS Java JDK -->
+		<dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-java-sdk</artifactId>
+			<version>${aws-java-jdk.version}</version>
+		</dependency>
+		
 	</dependencies>
     <build>
             <plugins>

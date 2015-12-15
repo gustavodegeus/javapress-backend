@@ -1,4 +1,4 @@
-package br.com.javapress.application.infrastructure.config.security.filters;
+package br.com.javapress.infrastructure.security.filters;
 
 import java.io.IOException;
 

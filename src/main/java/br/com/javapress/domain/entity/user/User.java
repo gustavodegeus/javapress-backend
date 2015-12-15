@@ -85,8 +85,8 @@ public class User extends AbstractEntity implements UserDetails{
 	public void setId(Long id) {
 		this.id = id;
 	}	
-	@JsonIgnore
 	
+	@JsonIgnore
 	public String getPassword() {
 		return password;
 	}

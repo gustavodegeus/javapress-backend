@@ -1,4 +1,4 @@
-package br.com.javapress.application.infrastructure.config;
+package br.com.javapress.infrastructure.config;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -22,11 +22,20 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 
+import com.amazonaws.AmazonClientException;
+import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.profile.ProfileCredentialsProvider;
+import com.amazonaws.regions.Region;
+import com.amazonaws.regions.Regions;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3Client;
+
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(basePackages = {"br.com.javapress.domain.repository"})
 @PropertySource("classpath:persistence.properties")	
-@ComponentScan(basePackages = {"br.com.javapress.domain","br.com.javapress.application.infrastructure.config.security"})
+@ComponentScan(basePackages = {"br.com.javapress.domain","br.com.javapress.infrastructure.security",
+		"br.com.javapress.infrastructure.s3"})
 public class AppConfig {
 	
 	private static final String PROPERTY_DATABASE_DRIVER = "db.driver";
@@ -95,5 +104,30 @@ public class AppConfig {
     @Bean
     public MethodValidationPostProcessor methodValidationPostProcessor(){
     	return new MethodValidationPostProcessor();
+    }
+    
+    @Bean
+    public AmazonS3 amazonS3Client(){
+    	 AmazonS3 s3 = new AmazonS3Client(this.getCredentials());
+    	 Region usWest2 = Region.getRegion(Regions.SA_EAST_1);
+         s3.setRegion(usWest2);
+         return s3;
+    }
+    
+    public AWSCredentials getCredentials(){
+    	
+		AWSCredentials credentials = null;
+	    
+	    try {
+	        credentials = new ProfileCredentialsProvider().getCredentials();
+	    } catch (Exception e) {
+	        throw new AmazonClientException(
+	                "Cannot load the credentials from the credential profiles file. " +
+	                "Please make sure that your credentials file is at the correct " +
+	                "location (~/.aws/credentials), and is in valid format.",
+	                e);
+	    }
+	    
+	    return credentials;
     }
 }

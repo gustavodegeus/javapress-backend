@@ -1,4 +1,4 @@
-package br.com.javapress.application.infrastructure.config;
+package br.com.javapress.infrastructure.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -15,12 +15,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.access.AccessDeniedHandlerImpl;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import br.com.javapress.application.infrastructure.config.security.TokenAuthenticationService;
-import br.com.javapress.application.infrastructure.config.security.TokenHandler;
-import br.com.javapress.application.infrastructure.config.security.filters.CORSFilter;
-import br.com.javapress.application.infrastructure.config.security.filters.StatelessAuthenticationFilter;
 import br.com.javapress.domain.entity.user.UserRole;
 import br.com.javapress.domain.service.CustomUserDetailsService;
+import br.com.javapress.infrastructure.security.TokenAuthenticationService;
+import br.com.javapress.infrastructure.security.TokenHandler;
+import br.com.javapress.infrastructure.security.filters.CORSFilter;
+import br.com.javapress.infrastructure.security.filters.StatelessAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity

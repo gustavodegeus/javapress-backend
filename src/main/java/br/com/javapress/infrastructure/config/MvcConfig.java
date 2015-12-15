@@ -1,4 +1,4 @@
-package br.com.javapress.application.infrastructure.config;
+package br.com.javapress.infrastructure.config;
 
 import java.util.List;
 

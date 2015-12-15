@@ -1,4 +1,4 @@
-package br.com.javapress.application.infrastructure.config.security.filters;
+package br.com.javapress.infrastructure.security.filters;
 
 import java.io.IOException;
 
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.GenericFilterBean;
 
-import br.com.javapress.application.infrastructure.config.security.TokenAuthenticationService;
+import br.com.javapress.infrastructure.security.TokenAuthenticationService;
 import io.jsonwebtoken.ExpiredJwtException;
 
 @Component

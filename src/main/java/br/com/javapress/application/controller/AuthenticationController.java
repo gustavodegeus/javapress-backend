@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.javapress.application.infrastructure.config.security.TokenAuthenticationService;
 import br.com.javapress.domain.dto.UserDto;
 import br.com.javapress.domain.entity.user.User;
 import br.com.javapress.domain.entity.user.UserAuthentication;
 import br.com.javapress.domain.service.CustomUserDetailsService;
+import br.com.javapress.infrastructure.security.TokenAuthenticationService;
 
 @RestController
 public class AuthenticationController {

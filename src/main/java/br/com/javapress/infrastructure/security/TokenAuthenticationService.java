@@ -1,4 +1,4 @@
-package br.com.javapress.application.infrastructure.config.security;
+package br.com.javapress.infrastructure.security;
 
 import java.util.ArrayList;
 

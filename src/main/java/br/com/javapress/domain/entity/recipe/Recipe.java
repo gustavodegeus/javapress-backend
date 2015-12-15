@@ -21,6 +21,10 @@ import br.com.javapress.domain.entity.post.Post;
 @AssertPostCategoryType(value=CategoryType.RECIPE)
 public class Recipe extends Post{
 
+	private static String PATH = "recipes";
+	private static String STEPS_PATH = "/steps/";
+	private static String INGREDIENTS_PATH = "/ingredients/";
+			
 	private String cookTime;
 	private String servings;
 	@Transient
@@ -78,5 +82,9 @@ public class Recipe extends Post{
 	}
 	public void addStep(Step step){
 		this.steps.add(step);
+	}
+
+	public String getImagePath() {
+		return PATH;
 	}
 }

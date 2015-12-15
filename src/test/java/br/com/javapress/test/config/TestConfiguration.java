@@ -10,11 +10,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.test.context.web.WebAppConfiguration;
 
-import br.com.javapress.application.infrastructure.config.AppConfig;
-import br.com.javapress.application.infrastructure.config.MvcConfig;
+import br.com.javapress.infrastructure.config.AppConfig;
+import br.com.javapress.infrastructure.config.MvcConfig;
+import br.com.javapress.infrastructure.config.SecurityConfig;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {AppConfig.class, MvcConfig.class})
+@ContextConfiguration(classes = {AppConfig.class, MvcConfig.class, SecurityConfig.class})
 @WebAppConfiguration
 @TransactionConfiguration(defaultRollback=true)
 @Transactional
