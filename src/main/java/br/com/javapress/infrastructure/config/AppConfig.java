@@ -1,5 +1,6 @@
 package br.com.javapress.infrastructure.config;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Properties;
@@ -14,6 +15,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.core.io.support.ResourcePropertySource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -24,7 +26,7 @@ import org.springframework.validation.beanvalidation.MethodValidationPostProcess
 
 import com.amazonaws.AmazonClientException;
 import com.amazonaws.auth.AWSCredentials;
-import com.amazonaws.auth.profile.ProfileCredentialsProvider;
+import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
@@ -35,7 +37,7 @@ import com.amazonaws.services.s3.AmazonS3Client;
 @EnableJpaRepositories(basePackages = {"br.com.javapress.domain.repository"})
 @PropertySource("classpath:persistence.properties")	
 @ComponentScan(basePackages = {"br.com.javapress.domain","br.com.javapress.infrastructure.security",
-		"br.com.javapress.infrastructure.s3"})
+							"br.com.javapress.infrastructure.s3"})
 public class AppConfig {
 	
 	private static final String PROPERTY_DATABASE_DRIVER = "db.driver";
@@ -46,6 +48,8 @@ public class AppConfig {
     private static final String PROPERTY_CREATE_SCHEMA_DDL = "hibernate.hbm2ddl.auto";
 	private static final String PROPERTY_HIBERNATE_PACKAGES_TO_SCAN = "hibernate.packagesToScan"; 
 	private static final String PROPERTY_HIBERNATE_DEFAULT_SCHEMA = "hibernate.defaultSchema"; 
+    private static final String PROPERTY_ACCESS_KEY = "aws.accessKeyId";
+    private static final String PROPERTY_SECRET_KEY = "aws.secretKey";
 	
 	@Resource
     private Environment env;
@@ -107,27 +111,26 @@ public class AppConfig {
     }
     
     @Bean
-    public AmazonS3 amazonS3Client(){
+    public AmazonS3 amazonS3Client() throws IOException{
     	 AmazonS3 s3 = new AmazonS3Client(this.getCredentials());
     	 Region usWest2 = Region.getRegion(Regions.SA_EAST_1);
          s3.setRegion(usWest2);
          return s3;
     }
     
-    public AWSCredentials getCredentials(){
+    public AWSCredentials getCredentials() throws IOException{
+		ResourcePropertySource awsProperties = new ResourcePropertySource("classpath:aws.properties");
     	
-		AWSCredentials credentials = null;
-	    
-	    try {
-	        credentials = new ProfileCredentialsProvider().getCredentials();
-	    } catch (Exception e) {
-	        throw new AmazonClientException(
-	                "Cannot load the credentials from the credential profiles file. " +
-	                "Please make sure that your credentials file is at the correct " +
-	                "location (~/.aws/credentials), and is in valid format.",
-	                e);
-	    }
-	    
-	    return credentials;
+    	if (awsProperties.getProperty(PROPERTY_ACCESS_KEY) != null &&
+    			awsProperties.getProperty(PROPERTY_SECRET_KEY) != null) {
+        
+    		return new BasicAWSCredentials(
+    				awsProperties.getProperty(PROPERTY_ACCESS_KEY).toString(),
+    				awsProperties.getProperty(PROPERTY_SECRET_KEY).toString());
+        }
+    	
+    	throw new AmazonClientException(
+                "Unable to load AWS credentials from Java system properties " +
+                "(" + PROPERTY_ACCESS_KEY + " and " + PROPERTY_SECRET_KEY + ")");	
     }
 }
