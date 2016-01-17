@@ -6,6 +6,7 @@ import java.net.URISyntaxException;
 import java.util.Properties;
 
 import javax.annotation.Resource;
+import javax.servlet.MultipartConfigElement;
 import javax.sql.DataSource;
 import javax.validation.Validator;
 
@@ -23,6 +24,7 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import com.amazonaws.AmazonClientException;
 import com.amazonaws.auth.AWSCredentials;
@@ -57,7 +59,8 @@ public class AppConfig {
 	@Bean
     public DataSource dataSource() throws URISyntaxException {
          
-        URI dbUri = new URI(System.getenv("DATABASE_URL"));
+		//Example: postgres://postgres:postgres@localhost:5432/javapress
+		URI dbUri = new URI(System.getenv("DATABASE_URL"));
         String username = dbUri.getUserInfo().split(":")[0];
         String password = dbUri.getUserInfo().split(":").length == 1 ? "" : dbUri.getUserInfo().split(":")[1];
         String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath();
@@ -116,6 +119,14 @@ public class AppConfig {
     	 Region usWest2 = Region.getRegion(Regions.SA_EAST_1);
          s3.setRegion(usWest2);
          return s3;
+    }
+    
+    @Bean
+    public CommonsMultipartResolver multipartResolver(){
+    	CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver();
+        commonsMultipartResolver.setDefaultEncoding("utf-8");
+        commonsMultipartResolver.setMaxUploadSize(50000000);
+        return commonsMultipartResolver;
     }
     
     public AWSCredentials getCredentials() throws IOException{

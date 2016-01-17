@@ -46,22 +46,32 @@ public class Post extends AbstractEntity {
 	@Column(name="post_id")
 	@AssertIdNotNullForUpdate(groups={PreUpdate.class})
 	private Long id;
+	
 	private String title;
+	
 	@Column(columnDefinition="TEXT")
 	private String content;
+	
 	private Boolean published;
+	
 	@Temporal(TemporalType.DATE)
 	private Calendar publishedDate;
+	
 	@ManyToMany(fetch=FetchType.EAGER)
     @JoinTable(name="post_tags", joinColumns={@JoinColumn(name="post_id")}, inverseJoinColumns={@JoinColumn(name="tag_id")})
 	@Cascade(CascadeType.SAVE_UPDATE)
 	private Set<Tag> tags;
+	
 	@ManyToOne
 	private Admin owner;
+	
 	@ManyToOne(fetch=FetchType.EAGER)
 	private Category category;
+	
 	@Transient
 	private List<Comment> comments;
+	
+	private String imageUrl;
 	
 	public Post(){
 		this.tags = new HashSet<Tag>();
@@ -123,5 +133,13 @@ public class Post extends AbstractEntity {
 	}
 	public void setComments(List<Comment> comments) {
 		this.comments = comments;
+	}
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
 }

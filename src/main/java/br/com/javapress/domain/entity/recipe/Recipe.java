@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Transient;
@@ -21,15 +22,15 @@ import br.com.javapress.domain.entity.post.Post;
 @AssertPostCategoryType(value=CategoryType.RECIPE)
 public class Recipe extends Post{
 
-	private static String PATH = "recipes";
-	private static String STEPS_PATH = "/steps/";
-	private static String INGREDIENTS_PATH = "/ingredients/";
+	public static String BUCKET_NAME = "receita";
+	public static String STEPS_PATH = "/steps/";
+	public static String INGREDIENTS_PATH = "/ingredients/";
 			
 	private String cookTime;
 	private String servings;
 	@Transient
 	private int rating;
-	@OneToMany(cascade={CascadeType.PERSIST,CascadeType.MERGE}, fetch=FetchType.EAGER, orphanRemoval=true)
+	@ManyToMany(cascade={CascadeType.PERSIST,CascadeType.MERGE}, fetch=FetchType.EAGER)
 	private Set<Ingredient> ingredients;
 	@OneToMany(cascade={CascadeType.PERSIST,CascadeType.MERGE}, fetch=FetchType.EAGER, orphanRemoval=true)
 	private Set<Step> steps;
@@ -85,6 +86,14 @@ public class Recipe extends Post{
 	}
 
 	public String getImagePath() {
-		return PATH;
+		return this.getId().toString() + "/";
+	}
+	
+	public String getStepPath(Long stepId){
+		return this.getImagePath() + "steps/"+ stepId.toString() + "/"; 
+	}
+	
+	public String getIngredientPath(Long ingredientId){
+		return this.getImagePath() + "ingredients/"+ ingredientId.toString() + "/"; 
 	}
 }
